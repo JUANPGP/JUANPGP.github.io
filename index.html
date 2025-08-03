@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora Fortnite Festival</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; }
+  label { display: block; margin-top: 10px; }
+  select, input { width: 100%; padding: 8px; }
+  button { margin-top: 15px; padding: 10px; width: 100%; }
+  .result { margin-top: 20px; font-size: 1.2em; }
+</style>
+</head>
+<body>
+<h2>Calculadora de Puntaje</h2>
+
+<label for="songSelect">Canción:</label>
+<select id="songSelect"></select>
+
+<label for="instrumentSelect">Instrumento:</label>
+<select id="instrumentSelect">
+  <option value="Vocals">Vocals</option>
+  <option value="Bass">Bass</option>
+  <option value="Lead">Lead</option>
+  <option value="Drums">Drums</option>
+</select>
+
+<label for="perfects">Notas perfectas:</label>
+<input type="number" id="perfects" min="0">
+
+<button onclick="calculateScore()">Calcular</button>
+
+<div class="result" id="result"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5zPeo8WDSBx8igMIj_EwbXOwV3QoFO4c9q3LDJLDiTvgvUwDeFp3xH7jlGCJUmbkjhjK8jnLp4cFp/pub?gid=728145224&single=true&output=csv";
+
+let songsData = [];
+
+function normalizeKey(key) {
+  return key.trim().replace(/"/g, "");
+}
+
+function normalizeValue(val) {
+  return (val || "").toString().replace(/"/g, "").trim();
+}
+
+function tierToDiffVal(tier) {
+  switch(tier) {
+    case "0,1": return 5;
+    case "0,2": return 10;
+    case "0,3": return 20;
+    case "0,4": return 30;
+    case "0,5": return 40;
+    case "1": return 50;
+    case "2": return 58;
+    case "3": return 65;
+    case "4": return 70;
+    case "5": return 75;
+    case "6": return 80;
+    case "7": return 85;
+    case "8": return 90;
+    case "9": return 95;
+    case "10": return 100;
+    case "12": return 110;
+    default: return 0;
+  }
+}
+
+function loadSongs() {
+  Papa.parse(sheetURL, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    transformHeader: function(header) {
+      return normalizeKey(header);
+    },
+    complete: function(results) {
+      songsData = results.data
+        .filter(r => r["Title"] && !isNaN(parseInt(r["Vocals Note Ct"])))
+        .map(r => ({
+          title: normalizeValue(r["Title"]),
+          vocalsNotes: parseInt(r["Vocals Note Ct"]),
+          bassNotes: parseInt(r["Bass Note Ct"]),
+          leadNotes: parseInt(r["Lead Note Ct"]),
+          drumsNotes: parseInt(r["Drums Note Ct"]),
+          vocalsTier: normalizeValue(r["Vocals Tier"]),
+          bassTier: normalizeValue(r["Bass Tier"]),
+          leadTier: normalizeValue(r["Lead Tier"]),
+          drumsTier: normalizeValue(r["Drums Tier"])
+        }));
+
+      console.log("Canciones cargadas:", songsData);
+
+      const sel = document.getElementById("songSelect");
+      sel.innerHTML = "";
+      songsData.forEach((song, i) => {
+        const opt = document.createElement("option");
+        opt.value = i;
+        opt.textContent = song.title;
+        sel.appendChild(opt);
+      });
+    }
+  });
+}
+
+function calculateScore() {
+  const bonusTable = {
+    80:0.1,81:0.18,82:0.25,83:0.3,84:0.35,85:0.4,86:0.45,87:0.5,88:0.55,
+    89:0.6,90:0.65,91:0.7,92:0.75,93:0.8,94:0.85,95:0.87,96:0.89,97:0.93,
+    98:0.96,99:0.99,100:1
+  };
+  const songIdx = document.getElementById("songSelect").value;
+  const instrument = document.getElementById("instrumentSelect").value;
+  const perfects = Number(document.getElementById("perfects").value);
+  if (!songsData[songIdx] || perfects <= 0) {
+    document.getElementById("result").textContent = "Faltan datos";
+    return;
+  }
+  const song = songsData[songIdx];
+  let totalNotes, tier;
+  if (instrument === "Vocals") { totalNotes = song.vocalsNotes; tier = song.vocalsTier; }
+  if (instrument === "Bass")   { totalNotes = song.bassNotes;   tier = song.bassTier; }
+  if (instrument === "Lead")   { totalNotes = song.leadNotes;   tier = song.leadTier; }
+  if (instrument === "Drums")  { totalNotes = song.drumsNotes;  tier = song.drumsTier; }
+  const diffVal = tierToDiffVal(tier);
+  const precision = perfects / totalNotes;
+  const pct = precision * 100;
+  const floorPct = Math.floor(pct);
+  const ceilPct = floorPct + 1;
+  const bonusFloor = bonusTable[floorPct] ?? 0;
+  const bonusCeil = bonusTable[ceilPct] ?? bonusFloor;
+  const weight = pct - floorPct;
+  const bonus = bonusFloor + weight * (bonusCeil - bonusFloor);
+  const score = diffVal * precision * bonus;
+  document.getElementById("result").textContent =
+    `Puntaje: ${score.toFixed(2)} (Precisión: ${(pct).toFixed(2)}%, Bonus: ${bonus.toFixed(3)})`;
+}
+
+loadSongs();
+</script>
+
+</body>
+</html>
