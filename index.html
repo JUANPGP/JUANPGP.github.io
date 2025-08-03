@@ -1,23 +1,49 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Calculadora Fortnite Festival</title>
+<title>Fortnite Festival Score Calculator</title>
 <style>
-  body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; }
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+    background-color: #2c2c2c;
+    color: #f0f0f0;
+    padding: 20px;
+  }
   label { display: block; margin-top: 10px; }
-  select, input { width: 100%; padding: 8px; }
-  button { margin-top: 15px; padding: 10px; width: 100%; }
+  select, input, button {
+    width: 100%;
+    padding: 8px;
+    background-color: #3a3a3a;
+    color: #f0f0f0;
+    border: 1px solid #555;
+    border-radius: 4px;
+    font-size: 1em;
+  }
+  select:focus, input:focus {
+    outline: none;
+    border-color: #888;
+  }
+  button {
+    margin-top: 15px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #505050;
+  }
   .result { margin-top: 20px; font-size: 1.2em; }
 </style>
 </head>
 <body>
-<h2>Calculadora de Puntaje</h2>
+<h2>Fortnite Festival Score Calculator</h2>
 
-<label for="songSelect">Canción:</label>
-<select id="songSelect"></select>
+<label for="songSelect">Song:</label>
+<input type="text" id="songSearch" placeholder="Search song...">
+<select id="songSelect" size="8"></select>
 
-<label for="instrumentSelect">Instrumento:</label>
+<label for="instrumentSelect">Instrument:</label>
 <select id="instrumentSelect">
   <option value="Vocals">Vocals</option>
   <option value="Bass">Bass</option>
@@ -25,10 +51,10 @@
   <option value="Drums">Drums</option>
 </select>
 
-<label for="perfects">Notas perfectas:</label>
+<label for="perfects">Perfect Notes:</label>
 <input type="number" id="perfects" min="0">
 
-<button onclick="calculateScore()">Calcular</button>
+<button onclick="calculateScore()">Calculate</button>
 
 <div class="result" id="result"></div>
 
@@ -37,6 +63,7 @@
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5zPeo8WDSBx8igMIj_EwbXOwV3QoFO4c9q3LDJLDiTvgvUwDeFp3xH7jlGCJUmbkjhjK8jnLp4cFp/pub?gid=728145224&single=true&output=csv";
 
 let songsData = [];
+let filteredData = [];
 
 function normalizeKey(key) {
   return key.trim().replace(/"/g, "");
@@ -91,19 +118,28 @@ function loadSongs() {
           drumsTier: normalizeValue(r["Drums Tier"])
         }));
 
-      console.log("Canciones cargadas:", songsData);
-
-      const sel = document.getElementById("songSelect");
-      sel.innerHTML = "";
-      songsData.forEach((song, i) => {
-        const opt = document.createElement("option");
-        opt.value = i;
-        opt.textContent = song.title;
-        sel.appendChild(opt);
-      });
+      filteredData = [...songsData];
+      renderSongList();
     }
   });
 }
+
+function renderSongList() {
+  const sel = document.getElementById("songSelect");
+  sel.innerHTML = "";
+  filteredData.forEach((song, i) => {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = song.title;
+    sel.appendChild(opt);
+  });
+}
+
+document.getElementById("songSearch").addEventListener("input", function() {
+  const term = this.value.toLowerCase();
+  filteredData = songsData.filter(song => song.title.toLowerCase().includes(term));
+  renderSongList();
+});
 
 function calculateScore() {
   const bonusTable = {
@@ -114,11 +150,11 @@ function calculateScore() {
   const songIdx = document.getElementById("songSelect").value;
   const instrument = document.getElementById("instrumentSelect").value;
   const perfects = Number(document.getElementById("perfects").value);
-  if (!songsData[songIdx] || perfects <= 0) {
-    document.getElementById("result").textContent = "Faltan datos";
+  if (!filteredData[songIdx] || perfects <= 0) {
+    document.getElementById("result").textContent = "Missing data";
     return;
   }
-  const song = songsData[songIdx];
+  const song = filteredData[songIdx];
   let totalNotes, tier;
   if (instrument === "Vocals") { totalNotes = song.vocalsNotes; tier = song.vocalsTier; }
   if (instrument === "Bass")   { totalNotes = song.bassNotes;   tier = song.bassTier; }
@@ -135,7 +171,7 @@ function calculateScore() {
   const bonus = bonusFloor + weight * (bonusCeil - bonusFloor);
   const score = diffVal * precision * bonus;
   document.getElementById("result").textContent =
-    `Puntaje: ${score.toFixed(2)} (Precisión: ${(pct).toFixed(2)}%, Bonus: ${bonus.toFixed(3)})`;
+    `Score: ${score.toFixed(2)} (Accuracy: ${(pct).toFixed(2)}%, Bonus: ${bonus.toFixed(3)})`;
 }
 
 loadSongs();
