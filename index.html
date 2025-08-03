@@ -1,181 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Fortnite Festival Score Calculator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <style>
+  :root {
+    --bg:#1f1f25;
+    --card:#2f2f3a;
+    --muted:#888;
+    --radius:12px;
+    --transition:.2s;
+  }
+  *{box-sizing:border-box;}
   body {
-    font-family: Arial, sans-serif;
+    margin:0;
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    background: linear-gradient(135deg,#1f1f25 0%,#272935 80%);
+    color:#f5f5f8;
+    min-height:100vh;
+    padding:16px;
+  }
+  h1{margin-top:0;font-size:1.6rem;}
+  .container {
     max-width: 600px;
     margin: auto;
-    background-color: #2c2c2c;
-    color: #f0f0f0;
-    padding: 20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
   }
-  label { display: block; margin-top: 10px; }
-  select, input, button {
-    width: 100%;
-    padding: 8px;
-    background-color: #3a3a3a;
-    color: #f0f0f0;
-    border: 1px solid #555;
-    border-radius: 4px;
-    font-size: 1em;
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    box-shadow: 0 12px 30px -5px rgba(0,0,0,.4);
   }
-  select:focus, input:focus {
-    outline: none;
-    border-color: #888;
+  label {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom:4px;
   }
+  .row {
+    display:flex;
+    flex-wrap: wrap;
+    gap:12px;
+  }
+  select, input {
+    flex:1 1 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #23232d;
+    color:#f5f5f8;
+    font-size:1rem;
+    appearance:none;
+  }
+  input::placeholder { color: #999; }
   button {
-    margin-top: 15px;
-    cursor: pointer;
+    padding:14px;
+    border:none;
+    background:#6366f1;
+    color:#fff;
+    font-size:1rem;
+    border-radius:8px;
+    cursor:pointer;
+    width:100%;
+    transition: var(--transition);
   }
-  button:hover {
-    background-color: #505050;
+  button:active { transform: scale(.98); }
+  button:hover { filter:brightness(1.05); }
+  .result-box {
+    background: #1f2330;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:8px;
+    padding:14px;
+    font-size:1rem;
+    display:flex;
+    flex-direction: column;
+    gap:6px;
   }
-  .result { margin-top: 20px; font-size: 1.2em; }
+  .small { font-size:.8rem; color: var(--muted); }
+  .inline { display:flex; gap:8px; flex-wrap:wrap; }
+  @media (min-width:640px){
+    .two { display:flex; gap:12px; }
+    .two > * { flex:1; }
+  }
 </style>
 </head>
 <body>
-<h2>Fortnite Festival Score Calculator</h2>
+  <div class="container">
+    <div class="card">
+      <h1>Score Calculator</h1>
+      <div class="row">
+        <div style="flex:1">
+          <label for="songInput">Song</label>
+          <input list="songList" id="songInput" placeholder="Type or select song" autocomplete="off" />
+          <datalist id="songList"></datalist>
+        </div>
+        <div style="flex:1">
+          <label for="instrumentSelect">Instrument</label>
+          <select id="instrumentSelect">
+            <option value="">-- Select --</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div style="flex:1">
+          <label for="perfects">Perfect Notes</label>
+          <input type="number" id="perfects" placeholder="e.g., 1234" min="0" />
+        </div>
+      </div>
+      <button id="calcBtn">Calculate Score</button>
+      <div id="result" class="result-box" aria-live="polite">
+        <div class="small">Enter song, instrument and perfect notes to get score.</div>
+      </div>
+    </div>
+  </div>
 
-<label for="songSelect">Song:</label>
-<input type="text" id="songSearch" placeholder="Search song...">
-<select id="songSelect" size="8"></select>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5zPeo8WDSBx8igMIj_EwbXOwV3QoFO4c9q3LDJLDiTvgvUwDeFp3xH7jlGCJUmbkjhjK8jnLp4cFp/pub?gid=728145224&single=true&output=csv";
 
-<label for="instrumentSelect">Instrument:</label>
-<select id="instrumentSelect">
-  <option value="Vocals">Vocals</option>
-  <option value="Bass">Bass</option>
-  <option value="Lead">Lead</option>
-  <option value="Drums">Drums</option>
-</select>
+    let songsData = [];
 
-<label for="perfects">Perfect Notes:</label>
-<input type="number" id="perfects" min="0">
+    function normalizeKey(k){ return k.trim().replace(/"/g,''); }
+    function normalizeValue(v){ return (v||'').toString().replace(/"/g,'').trim(); }
 
-<button onclick="calculateScore()">Calculate</button>
-
-<div class="result" id="result"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5zPeo8WDSBx8igMIj_EwbXOwV3QoFO4c9q3LDJLDiTvgvUwDeFp3xH7jlGCJUmbkjhjK8jnLp4cFp/pub?gid=728145224&single=true&output=csv";
-
-let songsData = [];
-let filteredData = [];
-
-function normalizeKey(key) {
-  return key.trim().replace(/"/g, "");
-}
-
-function normalizeValue(val) {
-  return (val || "").toString().replace(/"/g, "").trim();
-}
-
-function tierToDiffVal(tier) {
-  switch(tier) {
-    case "0,1": return 5;
-    case "0,2": return 10;
-    case "0,3": return 20;
-    case "0,4": return 30;
-    case "0,5": return 40;
-    case "1": return 50;
-    case "2": return 58;
-    case "3": return 65;
-    case "4": return 70;
-    case "5": return 75;
-    case "6": return 80;
-    case "7": return 85;
-    case "8": return 90;
-    case "9": return 95;
-    case "10": return 100;
-    case "12": return 110;
-    default: return 0;
-  }
-}
-
-function loadSongs() {
-  Papa.parse(sheetURL, {
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    transformHeader: function(header) {
-      return normalizeKey(header);
-    },
-    complete: function(results) {
-      songsData = results.data
-        .filter(r => r["Title"] && !isNaN(parseInt(r["Vocals Note Ct"])))
-        .map(r => ({
-          title: normalizeValue(r["Title"]),
-          vocalsNotes: parseInt(r["Vocals Note Ct"]),
-          bassNotes: parseInt(r["Bass Note Ct"]),
-          leadNotes: parseInt(r["Lead Note Ct"]),
-          drumsNotes: parseInt(r["Drums Note Ct"]),
-          vocalsTier: normalizeValue(r["Vocals Tier"]),
-          bassTier: normalizeValue(r["Bass Tier"]),
-          leadTier: normalizeValue(r["Lead Tier"]),
-          drumsTier: normalizeValue(r["Drums Tier"])
-        }));
-
-      filteredData = [...songsData];
-      renderSongList();
+    function tierToDiffVal(tier) {
+      switch(tier) {
+        case "0,1": return 5;
+        case "0,2": return 10;
+        case "0,3": return 20;
+        case "0,4": return 30;
+        case "0,5": return 40;
+        case "1": return 50;
+        case "2": return 58;
+        case "3": return 65;
+        case "4": return 70;
+        case "5": return 75;
+        case "6": return 80;
+        case "7": return 85;
+        case "8": return 90;
+        case "9": return 95;
+        case "10": return 100;
+        case "12": return 110;
+        default: return 0;
+      }
     }
-  });
-}
 
-function renderSongList() {
-  const sel = document.getElementById("songSelect");
-  sel.innerHTML = "";
-  filteredData.forEach((song, i) => {
-    const opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = song.title;
-    sel.appendChild(opt);
-  });
-}
+    const bonusTable = {
+      80:0.1,81:0.18,82:0.25,83:0.3,84:0.35,85:0.4,86:0.45,87:0.5,88:0.55,
+      89:0.6,90:0.65,91:0.7,92:0.75,93:0.8,94:0.85,95:0.87,96:0.89,97:0.93,
+      98:0.96,99:0.99,100:1
+    };
 
-document.getElementById("songSearch").addEventListener("input", function() {
-  const term = this.value.toLowerCase();
-  filteredData = songsData.filter(song => song.title.toLowerCase().includes(term));
-  renderSongList();
-});
+    function loadSongs() {
+      Papa.parse(sheetURL, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        transformHeader: h => normalizeKey(h),
+        complete: res => {
+          songsData = res.data
+            .filter(r => r["Title"] && !isNaN(parseInt(r["Vocals Note Ct"])))
+            .map(r => ({
+              title: normalizeValue(r["Title"]),
+              vocalsNotes: parseInt(r["Vocals Note Ct"]),
+              bassNotes: parseInt(r["Bass Note Ct"]),
+              leadNotes: parseInt(r["Lead Note Ct"]),
+              drumsNotes: parseInt(r["Drums Note Ct"]),
+              vocalsTier: normalizeValue(r["Vocals Tier"]),
+              bassTier: normalizeValue(r["Bass Tier"]),
+              leadTier: normalizeValue(r["Lead Tier"]),
+              drumsTier: normalizeValue(r["Drums Tier"])
+            }));
 
-function calculateScore() {
-  const bonusTable = {
-    80:0.1,81:0.18,82:0.25,83:0.3,84:0.35,85:0.4,86:0.45,87:0.5,88:0.55,
-    89:0.6,90:0.65,91:0.7,92:0.75,93:0.8,94:0.85,95:0.87,96:0.89,97:0.93,
-    98:0.96,99:0.99,100:1
-  };
-  const songIdx = document.getElementById("songSelect").value;
-  const instrument = document.getElementById("instrumentSelect").value;
-  const perfects = Number(document.getElementById("perfects").value);
-  if (!filteredData[songIdx] || perfects <= 0) {
-    document.getElementById("result").textContent = "Missing data";
-    return;
-  }
-  const song = filteredData[songIdx];
-  let totalNotes, tier;
-  if (instrument === "Vocals") { totalNotes = song.vocalsNotes; tier = song.vocalsTier; }
-  if (instrument === "Bass")   { totalNotes = song.bassNotes;   tier = song.bassTier; }
-  if (instrument === "Lead")   { totalNotes = song.leadNotes;   tier = song.leadTier; }
-  if (instrument === "Drums")  { totalNotes = song.drumsNotes;  tier = song.drumsTier; }
-  const diffVal = tierToDiffVal(tier);
-  const precision = perfects / totalNotes;
-  const pct = precision * 100;
-  const floorPct = Math.floor(pct);
-  const ceilPct = floorPct + 1;
-  const bonusFloor = bonusTable[floorPct] ?? 0;
-  const bonusCeil = bonusTable[ceilPct] ?? bonusFloor;
-  const weight = pct - floorPct;
-  const bonus = bonusFloor + weight * (bonusCeil - bonusFloor);
-  const score = diffVal * precision * bonus;
-  document.getElementById("result").textContent =
-    `Score: ${score.toFixed(2)} (Accuracy: ${(pct).toFixed(2)}%, Bonus: ${bonus.toFixed(3)})`;
-}
+          populateSongDatalist();
+        }
+      });
+    }
 
-loadSongs();
-</script>
+    function populateSongDatalist() {
+      const list = document.getElementById("songList");
+      list.innerHTML = "";
+      songsData.forEach(s => {
+        const o = document.createElement("option");
+        o.value = s.title;
+        list.appendChild(o);
+      });
+    }
 
+    function findSong(title) {
+      return songsData.find(s => s.title.toLowerCase() === title.toLowerCase());
+    }
+
+    function updateInstrumentOptions(song) {
+      const instSel = document.getElementById("instrumentSelect");
+      instSel.innerHTML = '<option value="">-- Select --</option>';
+      if (!song) return;
+      if (song.vocalsNotes && !isNaN(song.vocalsNotes)) {
+        const o = document.createElement("option"); o.value="Vocals"; o.textContent="Vocals"; instSel.appendChild(o);
+      }
+      if (song.bassNotes && !isNaN(song.bassNotes)) {
+        const o = document.createElement("option"); o.value="Bass"; o.textContent="Bass"; instSel.appendChild(o);
+      }
+      if (song.leadNotes && !isNaN(song.leadNotes)) {
+        const o = document.createElement("option"); o.value="Lead"; o.textContent="Lead"; instSel.appendChild(o);
+      }
+      if (song.drumsNotes && !isNaN(song.drumsNotes)) {
+        const o = document.createElement("option"); o.value="Drums"; o.textContent="Drums"; instSel.appendChild(o);
+      }
+    }
+
+    document.getElementById("songInput").addEventListener("input", e => {
+      const val = e.target.value;
+      const song = findSong(val);
+      updateInstrumentOptions(song);
+    });
+
+    document.getElementById("calcBtn").addEventListener("click", () => {
+      const songName = document.getElementById("songInput").value;
+      const instrument = document.getElementById("instrumentSelect").value;
+      const perfects = Number(document.getElementById("perfects").value);
+      const resultBox = document.getElementById("result");
+
+      if (!songName || !instrument || isNaN(perfects) || perfects < 0) {
+        resultBox.innerHTML = '<div class="small">Missing or invalid input.</div>';
+        return;
+      }
+      const song = findSong(songName);
+      if (!song) {
+        resultBox.innerHTML = '<div class="small">Song not found. Check spelling.</div>';
+        return;
+      }
+      let totalNotes, tier;
+      if (instrument === "Vocals") { totalNotes = song.vocalsNotes; tier = song.vocalsTier; }
+      if (instrument === "Bass")   { totalNotes = song.bassNotes;   tier = song.bassTier; }
+      if (instrument === "Lead")   { totalNotes = song.leadNotes;   tier = song.leadTier; }
+      if (instrument === "Drums")  { totalNotes = song.drumsNotes;  tier = song.drumsTier; }
+      if (!totalNotes || !tier) {
+        resultBox.innerHTML = '<div class="small">Instrument or tier missing.</div>';
+        return;
+      }
+
+      const diffVal = tierToDiffVal(tier);
+      const precision = perfects / totalNotes;
+      const pct = precision * 100;
+      const floorPct = Math.floor(pct);
+      const ceilPct = floorPct + 1;
+      const bonusFloor = bonusTable[floorPct] ?? 0;
+      const bonusCeil = bonusTable[ceilPct] ?? bonusFloor;
+      const weight = pct - floorPct;
+      const bonus = bonusFloor + weight * (bonusCeil - bonusFloor);
+      const score = diffVal * precision * bonus;
+
+      resultBox.innerHTML = `
+        <div><strong>Score:</strong> ${score.toFixed(2)}</div>
+        <div class="small">Accuracy: ${pct.toFixed(2)}%</div>
+        <div class="small">Bonus: ${bonus.toFixed(3)}</div>
+        <div class="small">Difficulty value: ${diffVal}</div>
+        <div class="small">Perfects: ${perfects} / ${totalNotes}</div>
+      `;
+    });
+
+    loadSongs();
+  </script>
 </body>
 </html>
