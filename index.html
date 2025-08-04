@@ -153,11 +153,61 @@
       }
     }
 
-    const bonusTable = {
-      80:0.1,81:0.18,82:0.25,83:0.3,84:0.35,85:0.4,86:0.45,87:0.5,88:0.55,
-      89:0.6,90:0.65,91:0.7,92:0.75,93:0.8,94:0.85,95:0.87,96:0.89,97:0.93,
-      98:0.96,99:0.99,100:1
-    };
+  const rawBonus = {
+    100.0: 1.00,
+    99.0: 0.99,
+    98.0: 0.96,
+    97.0: 0.93,
+    96.0: 0.89,
+    95.0: 0.87,
+    94.0: 0.85, 
+    93.0: 0.80,
+    92.0: 0.75,
+    91.0: 0.70,
+    90.0: 0.65,
+    89.0: 0.60,
+    88.0: 0.55,
+    87.0: 0.50,
+    86.0: 0.45,
+    85.0: 0.40,
+    84.0: 0.35,
+    83.0: 0.30,
+    82.0: 0.25,
+    81.0: 0.18,
+    80.0: 0.10,
+    70.0: 0.0875,
+    60.0: 0.075,
+    50.0: 0.0625,
+    40.0: 0.05,
+    30.0: 0.0375,
+    20.0: 0.025,
+    10.0: 0.0125
+  };
+
+  const bonusKeys = Object.keys(rawBonus).map(k => parseFloat(k)).sort((a,b)=>a-b);
+
+  function getInterpolatedBonus(pct) {
+    const highest = bonusKeys[bonusKeys.length - 1];
+    const lowest = bonusKeys[0];
+    if (pct >= highest) {
+      return rawBonus[highest];
+    }
+    if (pct <= lowest) {
+      return rawBonus[lowest];
+    }
+    let lower = lowest, upper = highest;
+    for (let i = 0; i < bonusKeys.length - 1; i++) {
+      if (pct >= bonusKeys[i] && pct <= bonusKeys[i + 1]) {
+        lower = bonusKeys[i];
+        upper = bonusKeys[i + 1];
+        break;
+      }
+    }
+    const bonusLower = rawBonus[lower];
+    const bonusUpper = rawBonus[upper];
+    const weight = (pct - lower) / (upper - lower);
+    return bonusLower + weight * (bonusUpper - bonusLower);
+  }
 
     function loadSongs() {
       Papa.parse(sheetURL, {
@@ -251,12 +301,7 @@
       const diffVal = tierToDiffVal(tier);
       const precision = perfects / totalNotes;
       const pct = precision * 100;
-      const floorPct = Math.floor(pct);
-      const ceilPct = floorPct + 1;
-      const bonusFloor = bonusTable[floorPct] ?? 0;
-      const bonusCeil = bonusTable[ceilPct] ?? bonusFloor;
-      const weight = pct - floorPct;
-      const bonus = bonusFloor + weight * (bonusCeil - bonusFloor);
+      const bonus = getInterpolatedBonus(pct);
       const score = diffVal * precision * bonus;
 
       resultBox.innerHTML = `
