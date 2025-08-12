@@ -10,98 +10,117 @@
     :root {
       --bg: #1f1f25;
       --card: #2f2f3a;
-      --muted: #9aa0a6;
+      --muted: #888;
       --radius: 12px;
-      --accent: #6366f1;
+      --transition: .2s;
     }
 
     * {
-      box-sizing: border-box
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #272935;
-      color: #eef2ff;
-      -webkit-font-smoothing: antialiased;
+      background: #272935 80%;
+      color: #f5f5f8;
+      min-height: 100vh;
       padding: 16px;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.6rem;
     }
 
     .container {
       max-width: 600px;
-      margin: 0 auto;
+      margin: auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
     .card {
       background: var(--card);
       border-radius: var(--radius);
       padding: 16px;
-      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, .6);
-    }
-
-    h1 {
-      margin: 0 0 8px 0;
-      font-size: 1.4rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 12px 30px -5px rgba(0, 0, 0, .4);
     }
 
     label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 6px;
+      font-size: .8rem;
       text-transform: uppercase;
-      letter-spacing: .6px;
+      letter-spacing: .5px;
+      margin-bottom: 6px;
     }
 
     .row {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
+      gap: 12px;
     }
 
     select,
     input {
-      background: #23232d;
-      color: #eef2ff;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      padding: 10px 12px;
+      flex: 1 1 100%;
+      padding: 12px 14px;
       border-radius: 8px;
+      border: none;
+      background: #23232d;
+      color: #f5f5f8;
       font-size: 1rem;
-      width: 100%;
+      appearance: none;
     }
 
     input::placeholder {
       color: #999;
     }
 
-    .small {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
     button {
-      background: var(--accent);
-      color: white;
+      padding: 14px;
       border: none;
-      padding: 12px 14px;
+      background: #6366f1;
+      color: #fff;
+      font-size: 1rem;
       border-radius: 8px;
       cursor: pointer;
-      font-weight: 600;
+      width: 100%;
+      transition: var(--transition);
     }
 
     button:active {
-      transform: translateY(1px)
+      transform: scale(.98);
+    }
+
+    button:hover {
+      filter: brightness(1.05);
     }
 
     .result-box {
-      background: #1b1e28;
-      padding: 12px;
+      background: #1f2330;
+      border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 14px;
+      font-size: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .small {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .inline {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .table-wrap {
@@ -167,39 +186,30 @@
 
 <body>
   <div class="container">
-    <div class="card" id="calculatorCard">
+    <div class="card" id="scoreCard">
       <h1>Score Calculator</h1>
-
-      <div class="row" style="align-items:flex-end;">
-        <div style="flex:1; min-width:220px;">
+      <div class="row">
+        <div style="flex:1">
           <label for="songInput">Song</label>
           <input list="songList" id="songInput" placeholder="Type or select song" autocomplete="off" />
           <datalist id="songList"></datalist>
         </div>
-
-        <div style="width:150px;">
+        <div style="flex:1">
           <label for="instrumentSelect">Instrument</label>
           <select id="instrumentSelect">
             <option value="">-- Select --</option>
           </select>
         </div>
       </div>
-
-      <div class="row" style="margin-top:10px;">
-        <div style="flex:1; min-width:160px;">
+      <div class="row">
+        <div style="flex:1">
           <label for="perfects">Perfect Notes</label>
           <input type="number" id="perfects" placeholder="e.g., 1234" min="0" />
         </div>
-
-        <div style="width:150px; display:flex; flex-direction:column; justify-content:flex-end;">
-          <button id="calcBtn">Calculate</button>
-        </div>
       </div>
-
-      <div style="margin-top:12px;">
-        <div id="result" class="result-box">
-          <div class="small">Enter song, instrument and perfect notes to get score.</div>
-        </div>
+      <button id="calcBtn">Calculate Score</button>
+      <div id="result" class="result-box" aria-live="polite">
+        <div class="small">Enter song, instrument and perfect notes to get score.</div>
       </div>
     </div>
 
@@ -313,9 +323,9 @@
       for (let i = 0; i < bonusKeys.length - 1; i++) {
         if (pct >= bonusKeys[i] && pct <= bonusKeys[i + 1]) { lower = bonusKeys[i]; upper = bonusKeys[i + 1]; break; }
       }
-      const lowVal = rawBonus[lower], highVal = rawBonus[upper];
+      const bonusLower = rawBonus[lower], bonusUpper = rawBonus[upper];
       const weight = (pct - lower) / (upper - lower);
-      return lowVal + weight * (highVal - lowVal);
+      return bonusLower + weight * (bonusUpper - bonusLower);
     }
 
     function normalizeKey(k) { return (k || "").toString().trim().replace(/"/g, ''); }
@@ -427,23 +437,25 @@
       const bonus = getInterpolatedBonus(pct);
 
       const diffVal = (function mapTierToValue(t) {
-        if (t === 0.1) return 5;
-        if (t === 0.2) return 10;
-        if (t === 0.3) return 20;
-        if (t === 0.4) return 30;
-        if (t === 0.5) return 40;
-        if (t === 1) return 50;
-        if (t === 2) return 58;
-        if (t === 3) return 65;
-        if (t === 4) return 70;
-        if (t === 5) return 75;
-        if (t === 6) return 80;
-        if (t === 7) return 85;
-        if (t === 8) return 90;
-        if (t === 9) return 95;
-        if (t === 10) return 100;
-        if (t === 12) return 110;
-        return (typeof t === "number" && !isNaN(t)) ? Math.round(t * 10) : 0;
+        switch (t) {
+          case 0.1: return 5;
+          case 0.2: return 10;
+          case 0.3: return 20;
+          case 0.4: return 30;
+          case 0.5: return 40;
+          case 1: return 50;
+          case 2: return 58;
+          case 3: return 65;
+          case 4: return 70;
+          case 5: return 75;
+          case 6: return 80;
+          case 7: return 85;
+          case 8: return 90;
+          case 9: return 95;
+          case 10: return 100;
+          case 12: return 110;
+          default: return 0;
+        }
       })(tierNum);
 
       const score = diffVal * precision * bonus;
@@ -509,4 +521,5 @@
     loadSongs();
   </script>
 </body>
+
 </html>
