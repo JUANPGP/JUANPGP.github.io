@@ -2,134 +2,164 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Fortnite Festival Score Calculator</title>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Festival Central Tier System</title>
+  <link rel="icon" href="img/logo.png" />
   <style>
     :root {
       --bg: #1f1f25;
       --card: #2f2f3a;
-      --muted: #888;
+      --muted: #9aa0a6;
       --radius: 12px;
-      --transition: .2s;
+      --accent: #6366f1;
     }
 
     * {
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #1f1f25 0%, #272935 80%);
-      color: #f5f5f8;
-      min-height: 100vh;
+      background: #272935;
+      color: #eef2ff;
+      -webkit-font-smoothing: antialiased;
       padding: 16px;
-    }
-
-    h1 {
-      margin-top: 0;
-      font-size: 1.6rem;
     }
 
     .container {
       max-width: 600px;
-      margin: auto;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
     }
 
     .card {
       background: var(--card);
       border-radius: var(--radius);
       padding: 16px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 12px 30px -5px rgba(0, 0, 0, .4);
+      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, .6);
+    }
+
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 1.4rem;
     }
 
     label {
-      font-size: .8rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 6px;
       text-transform: uppercase;
-      letter-spacing: .5px;
-      margin-bottom: 4px;
+      letter-spacing: .6px;
     }
 
     .row {
       display: flex;
-      flex-wrap: wrap;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     select,
     input {
-      flex: 1 1 100%;
-      padding: 12px 14px;
-      border-radius: 8px;
-      border: none;
       background: #23232d;
-      color: #f5f5f8;
+      color: #eef2ff;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 10px 12px;
+      border-radius: 8px;
       font-size: 1rem;
-      appearance: none;
+      width: 100%;
     }
 
     input::placeholder {
       color: #999;
     }
 
-    button {
-      padding: 14px;
-      border: none;
-      background: #6366f1;
-      color: #fff;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      transition: var(--transition);
-    }
-
-    button:active {
-      transform: scale(.98);
-    }
-
-    button:hover {
-      filter: brightness(1.05);
-    }
-
-    .result-box {
-      background: #1f2330;
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 8px;
-      padding: 14px;
-      font-size: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
     .small {
-      font-size: .8rem;
+      font-size: 0.9rem;
       color: var(--muted);
     }
 
-    .inline {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
     }
 
-    @media (min-width:640px) {
-      .two {
-        display: flex;
+    button:active {
+      transform: translateY(1px)
+    }
+
+    .result-box {
+      background: #1b1e28;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      margin-top: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 540px;
+    }
+
+    th,
+    td {
+      padding: 10px 8px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th:last-child,
+    td:last-child {
+      border-left: none;
+      border-right: none;
+    }
+
+    thead th {
+      color: #dfe6ff;
+      font-size: 0.85rem;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      vertical-align: text-top;
+    }
+
+    @media (min-width:800px) {
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 360px;
         gap: 12px;
+        align-items: start;
+      }
+    }
+
+    @media (max-width:799px) {
+      .container {
+        padding: 12px;
       }
 
-      .two>* {
-        flex: 1;
+      .card {
+        padding: 12px;
       }
     }
   </style>
@@ -137,121 +167,166 @@
 
 <body>
   <div class="container">
-    <div class="card">
+    <div class="card" id="calculatorCard">
       <h1>Score Calculator</h1>
-      <div class="row">
-        <div style="flex:1">
+
+      <div class="row" style="align-items:flex-end;">
+        <div style="flex:1; min-width:220px;">
           <label for="songInput">Song</label>
           <input list="songList" id="songInput" placeholder="Type or select song" autocomplete="off" />
           <datalist id="songList"></datalist>
         </div>
-        <div style="flex:1">
+
+        <div style="width:150px;">
           <label for="instrumentSelect">Instrument</label>
           <select id="instrumentSelect">
             <option value="">-- Select --</option>
           </select>
         </div>
       </div>
-      <div class="row">
-        <div style="flex:1">
+
+      <div class="row" style="margin-top:10px;">
+        <div style="flex:1; min-width:160px;">
           <label for="perfects">Perfect Notes</label>
           <input type="number" id="perfects" placeholder="e.g., 1234" min="0" />
         </div>
+
+        <div style="width:150px; display:flex; flex-direction:column; justify-content:flex-end;">
+          <button id="calcBtn">Calculate</button>
+        </div>
       </div>
-      <button id="calcBtn">Calculate Score</button>
-      <div id="result" class="result-box" aria-live="polite">
-        <div class="small">Enter song, instrument and perfect notes to get score.</div>
+
+      <div style="margin-top:12px;">
+        <div id="result" class="result-box">
+          <div class="small">Enter song, instrument and perfect notes to get score.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="difficultyCard">
+      <h1>Song Difficulty List</h1>
+
+      <div class="row" style="align-items:end; gap: 10px;">
+        <div style="width:100px;">
+          <label for="filterInstrument">Instrument</label>
+          <select id="filterInstrument">
+            <option value="">All</option>
+            <option value="Vocals">Vocals</option>
+            <option value="Bass">Bass</option>
+            <option value="Lead">Lead</option>
+            <option value="Drums">Drums</option>
+          </select>
+        </div>
+
+        <div style="width:110px;">
+          <label for="filterDifficulty">Difficulty</label>
+          <select id="filterDifficulty">
+            <option value="">-- Any --</option>
+            <option value="0.1">0.1</option>
+            <option value="0.2">0.2</option>
+            <option value="0.3">0.3</option>
+            <option value="0.4">0.4</option>
+            <option value="0.5">0.5</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+          </select>
+        </div>
+
+        <div style="width:190px;">
+          <label for="filterMode">Filter Type</label>
+          <select id="filterMode">
+            <option value="exact">Exact</option>
+            <option value="gte">Greater or equal (≥)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-top:12px;">
+        <table id="difficultyTable" aria-label="Song difficulty table">
+          <thead>
+            <tr>
+              <th style="width:80px">Instrument</th>
+              <th>Songs</th>
+              <th style="width:120px;text-align:center">Difficulty</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
   <script>
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5zPeo8WDSBx8igMIj_EwbXOwV3QoFO4c9q3LDJLDiTvgvUwDeFp3xH7jlGCJUmbkjhjK8jnLp4cFp/pub?gid=728145224&single=true&output=csv";
 
-    let songsData = [];
-
-    function normalizeKey(k) { return k.trim().replace(/"/g, ''); }
-    function normalizeValue(v) { return (v || '').toString().replace(/"/g, '').trim(); }
-
-    function tierToDiffVal(tier) {
-      switch (tier) {
-        case "0,1": return 5;
-        case "0,2": return 10;
-        case "0,3": return 20;
-        case "0,4": return 30;
-        case "0,5": return 40;
-        case "1": return 50;
-        case "2": return 58;
-        case "3": return 65;
-        case "4": return 70;
-        case "5": return 75;
-        case "6": return 80;
-        case "7": return 85;
-        case "8": return 90;
-        case "9": return 95;
-        case "10": return 100;
-        case "12": return 110;
-        default: return 0;
-      }
-    }
-
     const rawBonus = {
-      100.0: 1.00,
-      99.0: 0.99,
-      98.0: 0.96,
-      97.0: 0.93,
-      96.0: 0.89,
-      95.0: 0.87,
-      94.0: 0.85,
-      93.0: 0.80,
-      92.0: 0.75,
-      91.0: 0.70,
-      90.0: 0.65,
-      89.0: 0.60,
-      88.0: 0.55,
-      87.0: 0.50,
-      86.0: 0.45,
-      85.0: 0.40,
-      84.0: 0.35,
-      83.0: 0.30,
-      82.0: 0.25,
-      81.0: 0.18,
-      80.0: 0.10,
-      70.0: 0.0875,
-      60.0: 0.075,
-      50.0: 0.0625,
-      40.0: 0.05,
-      30.0: 0.0375,
-      20.0: 0.025,
-      10.0: 0.0125
+      100: 1,
+      99: 0.99,
+      98: 0.96,
+      97: 0.93,
+      96: 0.89,
+      95: 0.87,
+      94: 0.85,
+      93: 0.8,
+      92: 0.75,
+      91: 0.7,
+      90: 0.65,
+      89: 0.6,
+      88: 0.55,
+      87: 0.5,
+      86: 0.45,
+      85: 0.4,
+      84: 0.35,
+      83: 0.3,
+      82: 0.25,
+      81: 0.18,
+      80: 0.10,
+      70: 0.0875,
+      60: 0.075,
+      50: 0.0625,
+      40: 0.05,
+      30: 0.0375,
+      20: 0.025,
+      10: 0.0125
     };
 
     const bonusKeys = Object.keys(rawBonus).map(k => parseFloat(k)).sort((a, b) => a - b);
 
     function getInterpolatedBonus(pct) {
+      if (isNaN(pct)) return 0;
       const highest = bonusKeys[bonusKeys.length - 1];
       const lowest = bonusKeys[0];
-      if (pct >= highest) {
-        return rawBonus[highest];
-      }
-      if (pct <= lowest) {
-        return rawBonus[lowest];
-      }
+      if (pct >= highest) return rawBonus[highest];
+      if (pct <= lowest) return rawBonus[lowest];
       let lower = lowest, upper = highest;
       for (let i = 0; i < bonusKeys.length - 1; i++) {
-        if (pct >= bonusKeys[i] && pct <= bonusKeys[i + 1]) {
-          lower = bonusKeys[i];
-          upper = bonusKeys[i + 1];
-          break;
-        }
+        if (pct >= bonusKeys[i] && pct <= bonusKeys[i + 1]) { lower = bonusKeys[i]; upper = bonusKeys[i + 1]; break; }
       }
-      const bonusLower = rawBonus[lower];
-      const bonusUpper = rawBonus[upper];
+      const lowVal = rawBonus[lower], highVal = rawBonus[upper];
       const weight = (pct - lower) / (upper - lower);
-      return bonusLower + weight * (bonusUpper - bonusLower);
+      return lowVal + weight * (highVal - lowVal);
     }
 
+    function normalizeKey(k) { return (k || "").toString().trim().replace(/"/g, ''); }
+    function normalizeValue(v) { return (v || "").toString().replace(/"/g, '').trim(); }
+    function parseTier(t) {
+      if (!t && t !== 0) return NaN;
+      const s = normalizeValue(t).replace(',', '.').trim();
+      return s === "" ? NaN : parseFloat(s);
+    }
+
+    let songsData = [];
     function loadSongs() {
       Papa.parse(sheetURL, {
         download: true,
@@ -272,13 +347,14 @@
               leadTier: normalizeValue(r["Lead Tier"]),
               drumsTier: normalizeValue(r["Drums Tier"])
             }));
-
-          populateSongDatalist();
+          populateDatalist();
+          renderDifficultyTable();
+          console.log("Loaded", songsData.length, "songs");
         }
       });
     }
 
-    function populateSongDatalist(filteredSongs = songsData) {
+    function populateDatalist(filteredSongs = songsData) {
       const list = document.getElementById("songList");
       list.innerHTML = "";
       filteredSongs.forEach(s => {
@@ -296,36 +372,35 @@
       const instSel = document.getElementById("instrumentSelect");
       instSel.innerHTML = '<option value="">-- Select --</option>';
       if (!song) return;
-      if (song.vocalsNotes && !isNaN(song.vocalsNotes)) {
+      if (typeof song.vocalsNotes === "number" && !isNaN(song.vocalsNotes) && song.vocalsNotes > 0) {
         const o = document.createElement("option"); o.value = "Vocals"; o.textContent = "Vocals"; instSel.appendChild(o);
       }
-      if (song.bassNotes && !isNaN(song.bassNotes)) {
+      if (typeof song.bassNotes === "number" && !isNaN(song.bassNotes) && song.bassNotes > 0) {
         const o = document.createElement("option"); o.value = "Bass"; o.textContent = "Bass"; instSel.appendChild(o);
       }
-      if (song.leadNotes && !isNaN(song.leadNotes)) {
+      if (typeof song.leadNotes === "number" && !isNaN(song.leadNotes) && song.leadNotes > 0) {
         const o = document.createElement("option"); o.value = "Lead"; o.textContent = "Lead"; instSel.appendChild(o);
       }
-      if (song.drumsNotes && !isNaN(song.drumsNotes)) {
+      if (typeof song.drumsNotes === "number" && !isNaN(song.drumsNotes) && song.drumsNotes > 0) {
         const o = document.createElement("option"); o.value = "Drums"; o.textContent = "Drums"; instSel.appendChild(o);
       }
     }
 
     document.getElementById("songInput").addEventListener("input", e => {
-      const val = e.target.value.toLowerCase();
+      const val = e.target.value.trim().toLowerCase();
       const filtered = songsData.filter(s =>
         s.title.toLowerCase().includes(val)
       );
-      populateSongDatalist(filtered);
-      const exactMatch = songsData.find(s => s.title.toLowerCase() === val);
+      populateDatalist(filtered);
+      const exactMatch = songsData.find(s => s.title.trim().toLowerCase() === val);
       updateInstrumentOptions(exactMatch);
     });
 
     document.getElementById("calcBtn").addEventListener("click", () => {
-      const songName = document.getElementById("songInput").value;
+      const songName = document.getElementById("songInput").value.trim();
       const instrument = document.getElementById("instrumentSelect").value;
       const perfects = Number(document.getElementById("perfects").value);
       const resultBox = document.getElementById("result");
-
       if (!songName || !instrument || isNaN(perfects) || perfects < 0) {
         resultBox.innerHTML = '<div class="small">Missing or invalid input.</div>';
         return;
@@ -335,33 +410,103 @@
         resultBox.innerHTML = '<div class="small">Song not found. Check spelling.</div>';
         return;
       }
-      let totalNotes, tier;
-      if (instrument === "Vocals") { totalNotes = song.vocalsNotes; tier = song.vocalsTier; }
-      if (instrument === "Bass") { totalNotes = song.bassNotes; tier = song.bassTier; }
-      if (instrument === "Lead") { totalNotes = song.leadNotes; tier = song.leadTier; }
-      if (instrument === "Drums") { totalNotes = song.drumsNotes; tier = song.drumsTier; }
-      if (!totalNotes || !tier) {
+      let total = 0, tier;
+      if (instrument === "Vocals") { total = song.vocalsNotes; tier = song.vocalsTier; }
+      if (instrument === "Bass") { total = song.bassNotes; tier = song.bassTier; }
+      if (instrument === "Lead") { total = song.leadNotes; tier = song.leadTier; }
+      if (instrument === "Drums") { total = song.drumsNotes; tier = song.drumsTier; }
+
+      const tierNum = parseTier(tier);
+      if (!total || isNaN(tierNum)) {
         resultBox.innerHTML = '<div class="small">Instrument or tier missing.</div>';
         return;
       }
 
-      const diffVal = tierToDiffVal(tier);
-      const precision = perfects / totalNotes;
+      const precision = perfects / total;
       const pct = precision * 100;
       const bonus = getInterpolatedBonus(pct);
+
+      const diffVal = (function mapTierToValue(t) {
+        if (t === 0.1) return 5;
+        if (t === 0.2) return 10;
+        if (t === 0.3) return 20;
+        if (t === 0.4) return 30;
+        if (t === 0.5) return 40;
+        if (t === 1) return 50;
+        if (t === 2) return 58;
+        if (t === 3) return 65;
+        if (t === 4) return 70;
+        if (t === 5) return 75;
+        if (t === 6) return 80;
+        if (t === 7) return 85;
+        if (t === 8) return 90;
+        if (t === 9) return 95;
+        if (t === 10) return 100;
+        if (t === 12) return 110;
+        return (typeof t === "number" && !isNaN(t)) ? Math.round(t * 10) : 0;
+      })(tierNum);
+
       const score = diffVal * precision * bonus;
 
       resultBox.innerHTML = `
-        <div><strong>Score:</strong> ${score.toFixed(2)}</div>
-        <div class="small">Accuracy: ${pct.toFixed(2)}%</div>
-        <div class="small">Bonus: ${bonus.toFixed(3)}</div>
-        <div class="small">Difficulty value: ${diffVal}</div>
-        <div class="small">Perfects: ${perfects} / ${totalNotes}</div>
-      `;
+    <div><strong>Score:</strong> ${isFinite(score) ? score.toFixed(2) : 'N/A'}</div>
+    <div class="small">Accuracy: ${isFinite(pct) ? pct.toFixed(2) + '%' : 'N/A'}</div>
+    <div class="small">Bonus: ${isFinite(bonus) ? bonus.toFixed(4) : 'N/A'}</div>
+    <div class="small">Difficulty value: ${diffVal}</div>
+    <div class="small">Perfects: ${perfects} / ${total}</div>
+    `;
     });
+
+    function renderDifficultyTable() {
+      const tbody = document.querySelector("#difficultyTable tbody");
+      tbody.innerHTML = "";
+      let entries = [];
+      songsData.forEach(s => {
+        if (!isNaN(parseTier(s.vocalsTier))) entries.push({ instrument: "Vocals", difficulty: parseTier(s.vocalsTier), title: s.title });
+        if (!isNaN(parseTier(s.bassTier))) entries.push({ instrument: "Bass", difficulty: parseTier(s.bassTier), title: s.title });
+        if (!isNaN(parseTier(s.leadTier))) entries.push({ instrument: "Lead", difficulty: parseTier(s.leadTier), title: s.title });
+        if (!isNaN(parseTier(s.drumsTier))) entries.push({ instrument: "Drums", difficulty: parseTier(s.drumsTier), title: s.title });
+      });
+
+      const instrFilter = document.getElementById("filterInstrument").value;
+      const diffFilterStr = document.getElementById("filterDifficulty").value;
+      const filterMode = document.getElementById("filterMode").value;
+
+      let diffFilter = diffFilterStr === "" ? null : parseFloat(diffFilterStr);
+
+      let filtered = entries.filter(e => {
+        if (instrFilter && e.instrument !== instrFilter) return false;
+        if (diffFilter !== null) {
+          if (filterMode === "exact") return Number(e.difficulty) === Number(diffFilter);
+          if (filterMode === "gte") return Number(e.difficulty) >= Number(diffFilter);
+        }
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        if (b.difficulty !== a.difficulty) return (b.difficulty - a.difficulty);
+        return a.title.localeCompare(b.title);
+      });
+
+      filtered.forEach(row => {
+        const tr = document.createElement("tr");
+        const iconPath = `img/${row.instrument.toLowerCase()}.png`;
+        const iconHtml = `<img class="icon" src="${iconPath}" alt="${row.instrument}">`;
+        tr.innerHTML = `<td style="text-align:center">${iconHtml}</td><td>${escapeHtml(row.title)}</td><td style="text-align:center">${row.difficulty}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(s) { return (s || '').toString().replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c])); }
+
+    document.getElementById("filterInstrument").addEventListener("change", renderDifficultyTable);
+    document.getElementById("filterDifficulty").addEventListener("input", renderDifficultyTable);
+    document.getElementById("filterMode").addEventListener("change", renderDifficultyTable);
+
+    document.getElementById("filterInstrument").addEventListener("change", renderDifficultyTable);
+    document.getElementById("filterMode").addEventListener("change", renderDifficultyTable);
 
     loadSongs();
   </script>
 </body>
-
 </html>
