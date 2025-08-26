@@ -279,6 +279,7 @@
 
   <script>
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5zPeo8WDSBx8igMIj_EwbXOwV3QoFO4c9q3LDJLDiTvgvUwDeFp3xH7jlGCJUmbkjhjK8jnLp4cFp/pub?gid=728145224&single=true&output=csv";
+    const localCSV = "songs.csv";
 
     const rawBonus = {
       100: 1,
@@ -337,29 +338,43 @@
     }
 
     let songsData = [];
+
+    function processSongs(res) {
+      songsData = res.data
+        .filter(r => r["Title"] && !isNaN(parseInt(r["Vocals Note Ct"])))
+        .map(r => ({
+          title: normalizeValue(r["Title"]),
+          vocalsNotes: parseInt(r["Vocals Note Ct"]),
+          bassNotes: parseInt(r["Bass Note Ct"]),
+          leadNotes: parseInt(r["Lead Note Ct"]),
+          drumsNotes: parseInt(r["Drums Note Ct"]),
+          vocalsTier: normalizeValue(r["Vocals Tier"]),
+          bassTier: normalizeValue(r["Bass Tier"]),
+          leadTier: normalizeValue(r["Lead Tier"]),
+          drumsTier: normalizeValue(r["Drums Tier"])
+        }));
+
+      populateDatalist();
+      renderDifficultyTable();
+      console.log("Loaded", songsData.length, "songs");
+    }
+
     function loadSongs() {
       Papa.parse(sheetURL, {
         download: true,
         header: true,
         skipEmptyLines: true,
         transformHeader: h => normalizeKey(h),
-        complete: res => {
-          songsData = res.data
-            .filter(r => r["Title"] && !isNaN(parseInt(r["Vocals Note Ct"])))
-            .map(r => ({
-              title: normalizeValue(r["Title"]),
-              vocalsNotes: parseInt(r["Vocals Note Ct"]),
-              bassNotes: parseInt(r["Bass Note Ct"]),
-              leadNotes: parseInt(r["Lead Note Ct"]),
-              drumsNotes: parseInt(r["Drums Note Ct"]),
-              vocalsTier: normalizeValue(r["Vocals Tier"]),
-              bassTier: normalizeValue(r["Bass Tier"]),
-              leadTier: normalizeValue(r["Lead Tier"]),
-              drumsTier: normalizeValue(r["Drums Tier"])
-            }));
-          populateDatalist();
-          renderDifficultyTable();
-          console.log("Loaded", songsData.length, "songs");
+        complete: res => processSongs(res),
+        error: err => {
+          console.warn("Google Sheets failed, loading local CSV:", err);
+          Papa.parse("songs.csv", {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            transformHeader: h => normalizeKey(h),
+            complete: res => processSongs(res)
+          });
         }
       });
     }
