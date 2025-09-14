@@ -131,8 +131,14 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 540px;
     }
+
+    @media screen and (min-width: 601px) {
+      table {
+        min-width: 540px;
+      }
+    }
+
 
     th,
     td {
@@ -163,6 +169,39 @@
       vertical-align: text-top;
     }
 
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      background: #23232d;
+      border: none;
+      border-radius: 8px;
+      color: #f5f5f8;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .tab-content {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .tab-content.active {
+      display: flex;
+    }
+
+
+    .tab.active {
+      background: #6366f1;
+      font-weight: bold;
+    }
+
     @media (min-width:800px) {
       .grid-2 {
         display: grid;
@@ -186,7 +225,14 @@
 
 <body>
   <div class="container">
-    <div class="card" id="scoreCard">
+
+    <div class="tabs">
+      <button class="tab active" data-target="scoreCard">Score Calculator</button>
+      <button class="tab" data-target="difficultyCard">Song Difficulty List</button>
+      <button class="tab" data-target="fpGoalCard">FP Goal Calculator</button>
+    </div>
+
+    <div class="card tab-content active" id="scoreCard">
       <h1>Score Calculator</h1>
       <div class="row">
         <div style="flex:1">
@@ -213,9 +259,8 @@
       </div>
     </div>
 
-    <div class="card" id="difficultyCard">
+    <div class="card tab-content" id="difficultyCard">
       <h1>Song Difficulty List</h1>
-
       <div class="row" style="align-items:end; gap: 10px;">
         <div style="width:100px;">
           <label for="filterInstrument">Instrument</label>
@@ -227,7 +272,6 @@
             <option value="Drums">Drums</option>
           </select>
         </div>
-
         <div style="width:110px;">
           <label for="filterDifficulty">Difficulty</label>
           <select id="filterDifficulty">
@@ -250,7 +294,6 @@
             <option value="12">12</option>
           </select>
         </div>
-
         <div style="width:190px;">
           <label for="filterMode">Filter Type</label>
           <select id="filterMode">
@@ -259,7 +302,6 @@
           </select>
         </div>
       </div>
-
       <div class="table-wrap" style="margin-top:12px;">
         <table id="difficultyTable" aria-label="Song difficulty table">
           <thead>
@@ -273,13 +315,49 @@
         </table>
       </div>
     </div>
+
+    <div class="card tab-content" id="fpGoalCard">
+      <h1>FP Goal Calculator</h1>
+      <div class="row">
+        <div style="flex:1">
+          <label for="fpInput">Desired FP</label>
+          <input type="number" id="fpInput" placeholder="e.g., 82" min="1" />
+        </div>
+      </div>
+      <button id="fpCalcBtn">Find Songs</button>
+      <div class="table-wrap">
+        <table id="fpTable">
+          <thead>
+            <tr>
+              <th style="width:80px;text-align:center">Instrument</th>
+              <th>Song</th>
+              <th style="width:120px;text-align:center">Perfect / Goods</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
   <script>
+
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5zPeo8WDSBx8igMIj_EwbXOwV3QoFO4c9q3LDJLDiTvgvUwDeFp3xH7jlGCJUmbkjhjK8jnLp4cFp/pub?gid=728145224&single=true&output=csv";
     const localCSV = "songs.csv";
+
+    // Tabs handler
+    document.querySelectorAll(".tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.target).classList.add("active");
+      });
+    });
+
+
 
     const rawBonus = {
       100: 1,
@@ -534,6 +612,128 @@
     document.getElementById("filterMode").addEventListener("change", renderDifficultyTable);
 
     loadSongs();
+
+    // FP Goal
+    function round2(n) { return Math.round(n * 100) / 100; }
+
+    function tierToFP(t) {
+      switch (t) {
+        case 0.1: return 5;
+        case 0.2: return 10;
+        case 0.3: return 20;
+        case 0.4: return 30;
+        case 0.5: return 40;
+        case 1: return 50;
+        case 2: return 58;
+        case 3: return 65;
+        case 4: return 70;
+        case 5: return 75;
+        case 6: return 80;
+        case 7: return 85;
+        case 8: return 90;
+        case 9: return 95;
+        case 10: return 100;
+        case 12: return 110;
+        default: return 0;
+      }
+    }
+
+    function findMinimalPerfectsForFP(song, instrument, desiredFP) {
+      let totalNotes = 0;
+      let tierNum = NaN;
+      if (instrument === "Vocals") { totalNotes = song.vocalsNotes; tierNum = parseTier(song.vocalsTier); }
+      if (instrument === "Bass") { totalNotes = song.bassNotes; tierNum = parseTier(song.bassTier); }
+      if (instrument === "Lead") { totalNotes = song.leadNotes; tierNum = parseTier(song.leadTier); }
+      if (instrument === "Drums") { totalNotes = song.drumsNotes; tierNum = parseTier(song.drumsTier); }
+
+      if (!totalNotes || isNaN(tierNum)) return null;
+      const baseFP = tierToFP(tierNum);
+      if (baseFP <= 0) return null;
+
+      for (let p = 0; p <= totalNotes; p++) {
+        const precision = p / totalNotes;
+        const pct = precision * 100;
+        const bonus = getInterpolatedBonus(pct);
+        const score = baseFP * precision * bonus;
+        const scoreRounded = round2(score);
+        if (scoreRounded >= desiredFP) {
+          return { perfects: p, goods: totalNotes - p, totalNotes, tier: tierNum };
+        }
+      }
+      return null;
+    }
+
+    document.getElementById("fpCalcBtn").addEventListener("click", () => {
+      const desiredFP = Number(document.getElementById("fpInput").value);
+      const tbody = document.querySelector("#fpTable tbody");
+      tbody.innerHTML = "";
+
+      if (isNaN(desiredFP) || desiredFP <= 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center">Enter a valid FP</td></tr>`;
+        return;
+      }
+
+      const resultsByTier = {};
+      songsData.forEach(song => {
+        ["Vocals", "Bass", "Lead", "Drums"].forEach(inst => {
+          const req = findMinimalPerfectsForFP(song, inst, desiredFP);
+          if (!req) return;
+          if (!resultsByTier[req.tier]) resultsByTier[req.tier] = [];
+          resultsByTier[req.tier].push({
+            instrument: inst,
+            song: song.title,
+            perfects: req.perfects,
+            goods: req.goods,
+            totalNotes: req.totalNotes,
+            tier: req.tier
+          });
+        });
+      });
+
+      const tiers = Object.keys(resultsByTier)
+        .map(k => parseFloat(k))
+        .sort((a, b) => b - a);
+
+      if (tiers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center">No matching songs found</td></tr>`;
+        return;
+      }
+
+      const allGroups = [];
+      const songRows = [];
+
+      tiers.forEach(t => {
+        const baseFP = tierToFP(t);
+        const results = resultsByTier[t];
+        const allArePFC = results.every(r => r.perfects === r.totalNotes);
+        const isExactPFC = desiredFP === baseFP;
+
+        if (allArePFC && isExactPFC) {
+          const title = Number.isInteger(t) ? `All ${t}★ Songs` : `All ${t} Songs`;
+          allGroups.push(`
+            <tr>
+            <td style="text-align:center"><img class="icon" src="img/all.png" alt="All"></td>
+            <td><strong>${escapeHtml(title)}</strong></td>
+            <td style="text-align:center">PFC</td>
+            </tr>
+          `);
+        } else {
+          results.sort((a, b) => a.song.localeCompare(b.song));
+          results.forEach(r => {
+            const iconPath = `img/${r.instrument.toLowerCase()}.png`;
+            songRows.push(`
+              <tr>
+              <td style="text-align:center"><img class="icon" src="${iconPath}" alt="${r.instrument}"></td>
+              <td>${escapeHtml(r.song)}</td>
+              <td style="text-align:center">${r.goods === 0 ? "PFC" : `${r.perfects} / ${r.goods}`}</td>
+              </tr>
+            `);
+          });
+        }
+      });
+      tbody.innerHTML = allGroups.join("") + songRows.join("");
+    });
+
   </script>
 </body>
 
