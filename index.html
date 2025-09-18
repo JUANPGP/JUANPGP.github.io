@@ -715,7 +715,7 @@
             <tr>
               <td style="text-align:center"><img class="icon" src="img/all.png" alt="All"></td>
               <td><strong>${escapeHtml(title)}</strong></td>
-              <td style="text-align:center">PFC</td>
+              <td style="text-align:center">PFC (100%)</td>
             </tr>
           `);
         } else {
@@ -729,11 +729,12 @@
           results.sort((a, b) => a.song.localeCompare(b.song));
           results.forEach(r => {
             const iconPath = `img/${r.instrument.toLowerCase()}.png`;
+            const pct = ((r.perfects / r.totalNotes) * 100).toFixed(2);
             songRows.push(`
               <tr>
                 <td style="text-align:center"><img class="icon" src="${iconPath}" alt="${r.instrument}"></td>
                 <td>${escapeHtml(r.song)}</td>
-                <td style="text-align:center">${r.goods === 0 ? "PFC" : `${r.perfects} / ${r.goods}`}</td>
+                <td style="text-align:center">${r.goods === 0 ? "PFC (100%)" : `${r.perfects} / ${r.goods} (${pct}%)`}</td>
               </tr>
             `);
           });
