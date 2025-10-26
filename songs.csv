@@ -121,7 +121,7 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 2,Scenario,A Tribe Called Quest ft. Leaders Of The New School,Vocals 6,2,Bass 1,0.1,Lead 1,0.1,Drums 3,0.3,1043,309,166,1205
 2,Shivers,Ed Sheeran,Vocals 5,3,Bass 3,0.3,Lead 4,0.4,Drums 4,0.4,690,316,604,1269
 2,So What,P!nk,Vocals 5,0.5,Bass 3,0.3,Lead 4,0.4,Drums 4,0.4,561,580,1049,913
-2,Song 2,Blur,Vocals 2,0.2,Bass 3,0.3,Lead 4,0.4,Drums 4,0.4,155,299,1367,698
+2,Song 2,Blur,Vocals 2,0.2,Bass 3,0.3,Lead 4,0.4,Drums 4,0.4,155,299,937,698
 2,Stupid Love,Lady Gaga,Vocals 4,0.4,Bass 5,6,Lead 1,0.1,Drums 4,0.4,522,962,132,1195
 2,Sucker,Jonas Brothers,Vocals 4,0.4,Bass 3,0.3,Lead 3,0.3,Drums 5,6,592,440,763,1113
 2,Super Freak,Rick James,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 3,0.3,350,445,910,1354
@@ -196,7 +196,7 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 3,THE DINER,Billie Eilish,Vocals 4,0.4,Bass 2,0.2,Lead 3,0.3,Drums 2,0.2,339,142,474,921
 3,Therefore I Am,Billie Eilish,Vocals 4,0.4,Bass 3,0.3,Lead 2,0.2,Drums 2,0.2,401,394,249,642
 3,This Is How We Do It,Montell Jordan,Vocals 4,0.4,Bass 1,0.1,Lead 2,0.2,Drums 3,0.3,705,357,324,1162
-3,Toxicity,System Of A Down,Vocals 3,0.3,Bass 5,8,Lead 5,7,Drums 6,3,312,995,1243,1347
+3,Toxicity,System Of A Down,Vocals 3,0.3,Bass 5,7,Lead 5,8,Drums 6,3,312,995,1243,1347
 3,"yes, and?",Ariana Grande,Vocals 5,0.5,Bass 2,0.2,Lead 2,0.2,Drums 3,0.3,565,407,615,721
 3,Youngblood,5 Seconds of Summer,Vocals 4,0.4,Bass 2,0.2,Lead 4,0.4,Drums 3,0.3,576,467,772,772
 4,24K Magic,Bruno Mars,Vocals 5,0.5,Bass 4,0.4,Lead 4,0.4,Drums 3,0.3,688,537,557,1130
@@ -215,7 +215,7 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 4,Dynamite (BTS),BTS,Vocals 5,2,Bass 4,0.4,Lead 4,0.4,Drums 2,0.2,715,499,537,868
 4,Enter Sandman,Metallica,Vocals 3,0.3,Bass 4,0.4,Lead 6,4,Drums 5,0.5,328,1098,1337,1829
 4,Everybody Falls (Chill Mix),Epic Games,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 5,6,653,355,916,1130
-4,Fade to Black,Metallica,Vocals 2,0.2,Bass 5,7,Lead 6,5,Drums 6,6,172,1316,1833,2219
+4,Fade to Black,Metallica,Vocals 2,0.2,Bass 5,8,Lead 6,5,Drums 6,6,172,1316,1833,2219
 4,For Whom The Bell Tolls,Metallica,Vocals 3,0.3,Bass 4,0.4,Lead 5,4,Drums 3,0.3,190,826,1002,1162
 4,Gimmie The Light,Sean Paul,Vocals 6,2,Bass 2,0.2,Lead 3,0.3,Drums 2,0.2,1017,332,550,1200
 4,Hey Brother,Avicii,Vocals 4,0.4,Bass 2,0.2,Lead 4,0.4,Drums 3,0.3,287,542,1177,867
@@ -250,10 +250,10 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 4,Welcome To The Jungle,Guns N' Roses,Vocals 4,0.4,Bass 5,2,Lead 6,5,Drums 5,0.5,454,1080,1126,1547
 4,Wherever I May Roam,Metallica,Vocals 3,0.3,Bass 3,0.3,Lead 6,6,Drums 4,0.4,440,1144,1181,2042
 4,Would?,Alice In Chains,Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 5,4,287,1137,873,1205
-5,American Idiot,Green Day,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,312,604,1253,884
+5,American Idiot,Green Day,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,3,312,604,1253,884
 5,Apple,Charli xcx,Vocals 3,0.3,Bass 4,0.4,Lead 5,0.5,Drums 3,0.3,361,574,386,803
 5,Better Off Alone,Alice Deejay,Vocals 1,0.1,Bass 2,0.2,Lead 3,0.3,Drums 4,0.4,143,974,566,1170
-5,Beyond the Flame,Epic Games,Vocals 3,0.3,Bass 5,0.5,Lead 7,10,Drums 7,8,330,1351,1861,1608
+5,Beyond the Flame,Epic Games,Vocals 3,0.3,Bass 5,5,Lead 7,10,Drums 7,8,330,1351,1861,1608
 5,Big Poppa,The Notorious B.I.G.,Vocals 5,0.5,Bass 1,0.1,Lead 2,0.2,Drums 3,0.3,852,308,526,920
 5,Boulevard of Broken Dreams,Green Day,Vocals 3,0.3,Bass 2,0.2,Lead 3,0.3,Drums 2,0.2,445,502,1396,1115
 5,Broccoli,DRAM ft. Lil Yachty,Vocals 5,0.5,Bass 2,0.2,Lead 3,0.3,Drums 2,0.2,721,156,1003,823
@@ -270,17 +270,17 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 5,Gwenpool's Multiverse,Epic Games,Vocals 5,0.5,Bass 3,0.3,Lead 4,0.4,Drums 4,0.4,545,400,590,800
 5,Happy (Pharrell),Pharrell Williams,Vocals 4,0.4,Bass 3,0.3,Lead 3,0.3,Drums 2,0.2,684,574,680,1034
 5,HOT TO GO!,Chappell Roan,Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 4,0.4,476,815,537,1192
-5,I'm a Winner,Epic Games,Vocals 6,1,Bass 2,0.2,Lead 5,0.5,Drums 5,0.5,722,222,670,973
-5,I'm Not Okay (I Promise),My Chemical Romance,Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 5,0.5,322,896,1428,1409
+5,I'm a Winner,Epic Games,Vocals 6,1,Bass 2,0.2,Lead 5,3,Drums 5,4,722,222,670,973
+5,I'm Not Okay (I Promise),My Chemical Romance,Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 5,4,322,896,1428,1409
 5,In The End,Linkin Park,Vocals 5,0.5,Bass 3,0.3,Lead 2,0.2,Drums 5,0.5,493,649,298,871
 5,Inferno Island,Epic Games,Vocals 2,0.2,Bass 5,0.5,Lead 5,0.5,Drums 6,3,364,728,736,1226
-5,Juicy,The Notorious B.I.G.,Vocals 6,2,Bass 3,0.3,Lead 5,0.5,Drums 2,0.2,902,551,796,779
+5,Juicy,The Notorious B.I.G.,Vocals 6,2,Bass 3,0.3,Lead 5,5,Drums 2,0.2,902,551,796,779
 5,Keep Poppin,Epic Games,Vocals 2,0.2,Bass 4,0.4,Lead 6,1,Drums 4,0.4,167,373,758,736
 5,MONTERO (Call Me By Your Name),Lil Nas X,Vocals 5,0.5,Bass 1,0.1,Lead 3,0.3,Drums 3,0.3,441,97,336,427
 5,My Oh My,Ava Max,Vocals 4,0.4,Bass 3,0.3,Lead 5,0.5,Drums 4,0.4,537,236,470,715
 5,Nightmare,Avenged Sevenfold,Vocals 3,0.3,Bass 7,6,Lead 6,5,Drums 6,9,570,1138,1721,2229
 5,Nightmare's Choice,Epic Games,Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 4,0.4,652,312,793,636
-5,Notorious Thugs,The Notorious B.I.G.,Vocals 7,5,Bass 1,0.1,Lead 4,0.4,Drums 5,0.5,1523,451,1230,2202
+5,Notorious Thugs,The Notorious B.I.G.,Vocals 7,5,Bass 1,0.1,Lead 4,0.4,Drums 5,7,1523,451,1230,2202
 5,Ocean Breeze Beats,Epic Games,Vocals 3,0.3,Bass 5,0.5,Lead 3,0.3,Drums 5,0.5,462,934,422,1187
 5,OKI DOKI,Karol G,Vocals 5,0.5,Bass 2,0.2,Lead 3,0.3,Drums 3,0.3,428,118,398,390
 5,Orbital Overload,Epic Games,Vocals 3,0.3,Bass 2,0.2,Lead 6,5,Drums 5,0.5,433,188,687,963
@@ -288,12 +288,12 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 5,PROVENZA (REMIX),Karol G ft. Tiësto,Vocals 4,0.4,Bass 3,0.3,Lead 2,0.2,Drums 4,0.4,398,278,353,840
 5,Pump Up The Jam,Technotronic,Vocals 5,0.5,Bass 2,0.2,Lead 2,0.2,Drums 6,2,479,460,290,1747
 5,QLONA,Karol G ft. Peso Pluma,Vocals 5,0.5,Bass 1,0.1,Lead 3,0.3,Drums 1,0.1,572,151,408,294
-5,Replay,Iyaz,Vocals 5,0.5,Bass 1,0.1,Lead 4,0.4,Drums 5,0.5,675,78,930,797
+5,Replay,Iyaz,Vocals 5,0.5,Bass 1,0.1,Lead 4,0.4,Drums 5,5,675,78,930,797
 5,Say It Ain't So,Weezer,Vocals 3,0.3,Bass 2,0.2,Lead 4,0.4,Drums 4,0.4,301,355,768,991
-5,Say It Proud,Epic Games,Vocals 3,0.3,Bass 4,0.4,Lead 3,0.3,Drums 5,0.5,361,668,1058,904
-5,September,"Earth, Wind & Fire",Vocals 4,0.4,Bass 4,0.4,Lead 5,0.5,Drums 3,0.3,448,673,1161,1338
+5,Say It Proud,Epic Games,Vocals 3,0.3,Bass 4,0.4,Lead 3,0.3,Drums 5,3,361,668,1058,904
+5,September,"Earth, Wind & Fire",Vocals 4,0.4,Bass 4,0.4,Lead 5,3,Drums 3,0.3,448,673,1161,1338
 5,SexyBack,Justin Timberlake ft. Timbaland,Vocals 4,0.4,Bass 1,0.1,Lead 3,0.3,Drums 4,0.4,743,263,785,1209
-5,Somebody Told Me,The Killers,Vocals 3,0.3,Bass 4,0.4,Lead 4,0.4,Drums 5,0.5,436,644,1496,1338
+5,Somebody Told Me,The Killers,Vocals 3,0.3,Bass 4,0.4,Lead 4,0.4,Drums 5,7,436,644,1496,1338
 5,Stargazing,Myles Smith,Vocals 4,0.4,Bass 1,0.1,Lead 4,0.4,Drums 2,0.2,324,251,848,567
 5,Stick Season,Noah Kahan,Vocals 5,0.5,Bass 5,0.5,Lead 4,0.4,Drums 1,0.1,536,247,923,169
 5,Take Over Control,Afrojack ft. Eva Simmons,Vocals 3,0.3,Bass 3,0.3,Lead 3,0.3,Drums 4,0.4,453,456,1285,770
@@ -312,16 +312,16 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 6,Africa,Toto,Vocals 4,0.4,Bass 3,0.3,Lead 5,0.5,Drums 3,0.3,407,650,1011,1938
 6,All Eyez On Me,2Pac ft. Big Syke,Vocals 6,2,Bass 2,0.2,Lead 2,0.2,Drums 3,0.3,1123,458,887,1595
 6,All I Do Is Win,"DJ Khaled ft. T-Pain, Ludacris, Snoop Dogg & Rick Ross",Vocals 6,1,Bass 2,0.2,Lead 2,0.2,Drums 3,0.3,816,327,918,827
-6,All I Want For Christmas Is You,Mariah Carey,Vocals 6,2,Bass 4,0.4,Lead 5,0.5,Drums 4,0.4,676,526,1239,964
+6,All I Want For Christmas Is You,Mariah Carey,Vocals 6,2,Bass 4,0.4,Lead 5,3,Drums 4,0.4,676,526,1239,964
 6,Armed And Dangerous,Juice WRLD,Vocals 5,0.5,Bass 1,0.1,Lead 2,0.2,Drums 4,0.4,459,90,350,768
 6,Ballin',Mustard ft. Roddy Ricch,Vocals 6,3,Bass 1,0.1,Lead 3,0.3,Drums 4,0.4,696,98,359,604
 6,Bang Bang,"Jessie J, Nicki Minaj, Ariana Grande",Vocals 6,1,Bass 2,0.2,Lead 2,0.2,Drums 5,0.5,728,185,238,853
-6,Barbarian,Juice WRLD,Vocals 6,2,Bass 1,0.1,Lead 4,0.4,Drums 5,0.5,688,144,476,843
+6,Barbarian,Juice WRLD,Vocals 6,2,Bass 1,0.1,Lead 4,0.4,Drums 5,9,688,144,476,843
 6,Beautiful,Snoop Dogg ft. Pharrell & Uncle Charlie Wilson,Vocals 5,0.5,Bass 2,0.2,Lead 2,0.2,Drums 3,0.3,828,615,1312,1506
 6,Beautiful Things,Benson Boone,Vocals 4,0.4,Bass 3,0.3,Lead 3,0.3,Drums 3,0.3,328,288,516,443
 6,BIRDS OF A FEATHER,Billie Eilish,Vocals 4,0.4,Bass 3,0.3,Lead 3,0.3,Drums 4,0.4,345,595,474,1859
 6,Bones,Imagine Dragons,Vocals 5,0.5,Bass 3,0.3,Lead 3,0.3,Drums 3,0.3,463,226,253,353
-6,Bounce Back,Big Sean,Vocals 6,2,Bass 2,0.2,Lead 3,0.3,Drums 5,0.5,807,227,459,1085
+6,Bounce Back,Big Sean,Vocals 6,2,Bass 2,0.2,Lead 3,0.3,Drums 5,9,807,227,459,1085
 6,Break The Curse,Epic Games,Vocals 6,1,Bass 5,0.5,Lead 6,9,Drums 6,3,519,797,647,1159
 6,Bunny Bounce (Murda Beatz Remix),Epic Games ft. Murda Beatz,Vocals 4,0.4,Bass 2,0.2,Lead 3,0.3,Drums 4,0.4,460,367,395,449
 6,Californication,Red Hot Chili Peppers,Vocals 3,0.3,Bass 3,0.3,Lead 3,0.3,Drums 4,0.4,487,912,1365,1708
@@ -334,7 +334,7 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 6,Drop It Like It's Hot,Snoop Dogg ft. Pharrell,Vocals 5,0.5,Bass 1,0.1,Lead 2,0.2,Drums 1,0.1,867,411,241,737
 6,Empty Out Your Pockets,Juice WRLD,Vocals 5,0.5,Bass 1,0.1,Lead 3,0.3,Drums 4,0.4,447,144,416,800
 6,Everybody (Backstreet's Back),Backstreet Boys,Vocals 4,0.4,Bass 3,0.3,Lead 3,0.3,Drums 4,0.4,477,391,385,1063
-6,Fat Lip,Sum 41,Vocals 5,0.5,Bass 4,0.4,Lead 5,0.5,Drums 4,0.4,492,542,924,800
+6,Fat Lip,Sum 41,Vocals 5,0.5,Bass 4,0.4,Lead 5,4,Drums 4,0.4,492,542,924,800
 6,Fireball,Pitbull ft. John Ryan,Vocals 6,1,Bass 4,0.4,Lead 4,0.4,Drums 3,0.3,760,709,1357,1013
 6,For The Night,Pop Smoke w/ Lil Baby & DaBaby,Vocals 5,0.5,Bass 2,0.2,Lead 3,0.3,Drums 3,0.3,654,174,478,550
 6,FTCU,Nicki Minaj,Vocals 4,0.4,Bass 2,0.2,Lead 1,0.1,Drums 4,0.4,430,256,128,700
@@ -342,43 +342,43 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 6,Ghost,Justin Bieber,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 2,0.2,289,442,625,405
 6,Give It Away,Red Hot Chili Peppers,Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 5,0.5,898,943,1219,1564
 6,Hey Ya!,Outkast,Vocals 4,0.4,Bass 3,0.3,Lead 3,0.3,Drums 1,0.1,601,683,1113,759
-6,Hips Don't Lie,Shakira ft. Wyclef Jean,Vocals 5,0.5,Bass 2,0.2,Lead 5,0.5,Drums 4,0.4,763,388,636,971
+6,Hips Don't Lie,Shakira ft. Wyclef Jean,Vocals 5,3,Bass 2,0.2,Lead 5,3,Drums 4,0.4,763,388,636,971
 6,In Ha Mood,Ice Spice,Vocals 5,0.5,Bass 1,0.1,Lead 2,0.2,Drums 4,0.4,441,143,88,503
 6,Industry Baby,Lil Nas X ft. Jack Harlow,Vocals 5,0.5,Bass 1,0.1,Lead 1,0.1,Drums 4,0.4,704,204,430,1048
 6,Kryptonite,3 Doors Down,Vocals 3,0.3,Bass 2,0.2,Lead 3,0.3,Drums 4,0.4,389,404,965,1088
 6,Larry's Place,Epic Games,Vocals 3,0.3,Bass 3,0.3,Lead 6,9,Drums 6,5,102,173,446,807
 6,Lean Back,Terror Squad ft. Remy & Fat Joe,Vocals 6,1,Bass 1,0.1,Lead 4,0.4,Drums 2,0.2,818,248,1139,1105
 6,Lean Wit Me,Juice WRLD,Vocals 4,0.4,Bass 2,0.2,Lead 2,0.2,Drums 3,0.3,451,206,477,612
-6,Limitless (Murda Beatz Remix),Epic Games ft. Murda Beatz,Vocals 3,0.3,Bass 1,0.1,Lead 3,0.3,Drums 5,0.5,521,161,538,1220
+6,Limitless (Murda Beatz Remix),Epic Games ft. Murda Beatz,Vocals 3,0.3,Bass 1,0.1,Lead 3,0.3,Drums 5,4,521,161,538,1220
 6,Lonely Boy,The Black Keys,Vocals 2,0.2,Bass 1,0.1,Lead 4,0.4,Drums 4,0.4,248,276,1334,1557
 6,Magenta Ride,Epic Games,Vocals 4,0.4,Bass 4,0.4,Lead 5,0.5,Drums 4,0.4,545,297,599,700
 6,Mambo No. 5 (A Little Bit of...),Lou Bega,Vocals 5,0.5,Bass 1,0.1,Lead 4,0.4,Drums 4,0.4,532,394,702,1573
 6,MILLION DOLLAR BABY,Tommy Richman,Vocals 5,0.5,Bass 4,0.4,Lead 2,0.2,Drums 3,0.3,352,259,274,707
 6,My House,Flo Rida,Vocals 5,0.5,Bass 1,0.1,Lead 2,0.2,Drums 2,0.2,505,120,334,962
-6,NIGHT DANCER,imase,Vocals 3,0.3,Bass 3,0.3,Lead 3,0.3,Drums 5,0.5,544,354,639,957
+6,NIGHT DANCER,imase,Vocals 3,0.3,Bass 3,0.3,Lead 3,0.3,Drums 5,3,544,354,639,957
 6,Night Rose's Song,Epic Games,Vocals 4,0.4,Bass 4,0.4,Lead 3,0.3,Drums 6,7,512,484,1132,1151
-6,Oh Shhh...,Ice Spice ft. Travis Scott,Vocals 5,0.5,Bass 2,0.2,Lead 2,0.2,Drums 5,0.5,537,215,477,975
-6,Radioactive,Imagine Dragons,Vocals 2,0.2,Bass 5,0.5,Lead 3,0.3,Drums 2,0.2,373,480,498,283
+6,Oh Shhh...,Ice Spice ft. Travis Scott,Vocals 5,0.5,Bass 2,0.2,Lead 2,0.2,Drums 5,8,537,215,477,975
+6,Radioactive,Imagine Dragons,Vocals 2,0.2,Bass 5,6,Lead 3,0.3,Drums 2,0.2,373,480,498,283
 6,Regulate,Warren G ft. Nate Dogg,Vocals 5,0.5,Bass 3,0.3,Lead 3,0.3,Drums 3,0.3,708,487,532,1907
 6,Right Round,"Flo Rida, Kesha",Vocals 5,0.5,Bass 1,0.1,Lead 5,0.5,Drums 3,0.3,707,146,591,697
 6,Robbery,Juice WRLD,Vocals 4,0.4,Bass 1,0.1,Lead 2,0.2,Drums 3,0.3,479,126,920,1262
-6,Run It Up (Epic Games),Epic Games,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,580,330,520,1019
-6,Sizzlin' Sunshine,Epic Games,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,427,815,910,1748
+6,Run It Up (Epic Games),Epic Games,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,5,580,330,520,1019
+6,Sizzlin' Sunshine,Epic Games,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,6,427,815,910,1748
 6,Snow (Hey Oh),Red Hot Chili Peppers,Vocals 4,0.4,Bass 4,0.4,Lead 6,7,Drums 3,0.3,816,1703,2604,1558
-6,Spies! (Marshmello Remix),Epic Games ft. Marshmello,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,103,147,342,850
-6,Spies! (Murda Beatz Remix),Epic Games ft. Murda Beatz,Vocals 6,2,Bass 1,0.1,Lead 5,0.5,Drums 4,0.4,616,243,305,1030
-6,"Sugar, We're Goin Down",Fall Out Boy,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,498,755,1421,1116
+6,Spies! (Marshmello Remix),Epic Games ft. Marshmello,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 5,6,103,147,342,850
+6,Spies! (Murda Beatz Remix),Epic Games ft. Murda Beatz,Vocals 6,2,Bass 1,0.1,Lead 5,3,Drums 4,0.4,616,243,305,1030
+6,"Sugar, We're Goin Down",Fall Out Boy,Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,4,498,755,1421,1116
 6,Super Bass,Nicki Minaj,Vocals 6,1,Bass 1,0.1,Lead 3,0.3,Drums 4,0.4,815,118,571,797
-6,Take On Me,a-ha,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,246,649,907,1560
+6,Take On Me,a-ha,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 5,8,246,649,907,1560
 6,The Brave,YOASOBI,Vocals 6,1,Bass 6,3,Lead 7,4,Drums 6,5,799,651,890,916
 6,The Diary Of Jane,Breaking Benjamin,Vocals 3,0.3,Bass 5,0.5,Lead 4,0.4,Drums 6,2,288,657,857,948
-6,"This Ain't A Scene, It's An Arms Race",Fall Out Boy,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,490,839,1589,939
-6,Tropical Heat,Epic Games,Vocals 2,0.2,Bass 4,0.4,Lead 5,0.5,Drums 6,7,424,804,1038,2203
-6,Tubthumping,Chumbawamba,Vocals 4,0.4,Bass 2,0.2,Lead 3,0.3,Drums 5,0.5,672,390,687,1653
+6,"This Ain't A Scene, It's An Arms Race",Fall Out Boy,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 5,5,490,839,1589,939
+6,Tropical Heat,Epic Games,Vocals 2,0.2,Bass 4,0.4,Lead 5,4,Drums 6,7,424,804,1038,2203
+6,Tubthumping,Chumbawamba,Vocals 4,0.4,Bass 2,0.2,Lead 3,0.3,Drums 5,8,672,390,687,1070
 6,Turn Up,Epic Games,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 3,0.3,200,316,697,978
-6,Walk This Way,Run DMC ft. Aerosmith,Vocals 5,0.5,Bass 2,0.2,Lead 5,0.5,Drums 3,0.3,483,297,1382,1872
-6,Whine Up,Kat DeLuna ft. Elephant Man,Vocals 5,0.5,Bass 2,0.2,Lead 3,0.3,Drums 4,0.4,830,240,651,1223
-6,Wild Ones (Flo Rida),Flo Rida ft. Sia,Vocals 5,0.5,Bass 3,0.3,Lead 3,0.3,Drums 4,0.4,697,761,1103,1007
+6,Walk This Way,Run DMC ft. Aerosmith,Vocals 5,0.5,Bass 2,0.2,Lead 5,3,Drums 3,0.3,483,297,1382,1872
+6,Whine Up,Kat DeLuna ft. Elephant Man,Vocals 5,2,Bass 2,0.2,Lead 3,0.3,Drums 4,0.4,830,240,651,1223
+6,Wild Ones (Flo Rida),Flo Rida ft. Sia,Vocals 5,2,Bass 3,0.3,Lead 3,0.3,Drums 4,0.4,697,761,1103,1007
 6,Wishing Well,Juice WRLD,Vocals 4,0.4,Bass 2,0.2,Lead 4,0.4,Drums 4,0.4,509,221,1091,981
 6,"Young, Wild & Free",Snoop Dogg & Wiz Khalifa ft. Bruno Mars,Vocals 6,1,Bass 2,0.2,Lead 2,0.2,Drums 3,0.3,606,373,714,1117
 7,Adam's Song,blink-182,Vocals 2,0.2,Bass 4,0.4,Lead 3,0.3,Drums 5,0.5,328,1213,1579,1330
@@ -403,7 +403,7 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 7,I Write Sins Not Tragedies,Panic! At The Disco,Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 4,0.4,399,584,1152,736
 7,IDOL,YOASOBI,Vocals 6,1,Bass 5,0.5,Lead 6,3,Drums 7,9,856,632,927,1563
 7,Insane in the Brain,Cypress Hill,Vocals 5,0.5,Bass 1,0.1,Lead 3,0.3,Drums 2,0.2,598,382,179,1157
-7,Last Resort (2020),Papa Roach,Vocals 4,0.4,Bass 3,0.3,Lead 5,0.5,Drums 5,0.5,452,996,1451,976
+7,Last Resort (2020),Papa Roach,Vocals 4,0.4,Bass 3,0.3,Lead 5,0.5,Drums 5,0.5,452,758,1451,976
 7,Lose Control,Teddy Swims,Vocals 5,0.5,Bass 3,0.3,Lead 3,0.3,Drums 4,0.4,485,253,618,717
 7,Love Don't Cost A Thing,Jennifer Lopez,Vocals 5,0.5,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,701,319,756,1344
 7,M@GICAL☆CURE! LOVE SHOT!,SAWTOWNE ft. Hatsune Miku,Vocals 6,2,Bass 5,0.5,Lead 7,8,Drums 6,6,682,914,1206,1080
@@ -490,7 +490,7 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 9,APT.,"ROSÉ, Bruno Mars",Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 4,0.4,536,365,738,1106
 9,Best of You,Foo Fighters,Vocals 2,0.2,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,450,793,1785,1104
 9,Bonde Do Brunão,Bruno Mars,Vocals 4,0.4,Bass 1,0.1,Lead 2,0.2,Drums 5,0.5,183,85,109,454
-9,Break From Toronto,PARTYNEXTDOOR,Vocals 5,0.5,Bass 1,0.1,Lead 2,0.2,Drums 4,0.1,229,73,242,473
+9,Break From Toronto,PARTYNEXTDOOR,Vocals 5,0.5,Bass 1,0.1,Lead 2,0.2,Drums 4,0.4,229,73,242,473
 9,Bruno-San’s Theme Song,Bruno Mars,Vocals 3,0.3,Bass 3,0.3,Lead 5,0.5,Drums 4,0.4,112,227,291,399
 9,Dance Therapy,Epic Games,Vocals 5,0.5,Bass 2,0.2,Lead 5,0.5,Drums 6,2,408,738,517,771
 9,Die With A Smile,"Lady Gaga, Bruno Mars",Vocals 4,0.4,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,461,352,933,990
@@ -543,3 +543,18 @@ Season,Title,Artist,Vocals Ing,Vocals Tier,Bass Ing,Bass Tier,Lead Ing,Lead Tier
 10,Run It Up (Hanumankind),Hanumankind,Vocals 6,1,Bass 2,0.2,Lead 1,0.1,Drums 6,1,734,170,74,884
 10,Starboy,The Weeknd ft. Daft Punk,Vocals 5,0.5,Bass 2,0.2,Lead 1,0.1,Drums 2,0.2,851,613,238,694
 10,Wildberry Lillet,Nina Chuba,Vocals 5,0.5,Bass 1,0.1,Lead 3,0.3,Drums 4,0.4,537,93,544,510
+11,AAAHH MEN!,Doja Cat,Vocals 6,2,Bass 4,0.4,Lead 4,0.4,Drums 5,0.5,598,472,698,1031
+11,Another Life,Motionless In White,Vocals 3,0.3,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,328,414,1015,846
+11,Champion,Fall Out Boy,Vocals 4,0.4,Bass 3,0.3,Lead 3,0.3,Drums 4,0.4,497,305,453,852
+11,El Paletero,Epic Games,Vocals 5,0.5,Bass 2,0.2,Lead 5,0.5,Drums 3,0.3,649,238,838,1052
+11,Friendly Fire,Epic Games,Vocals 4,0.4,Bass 4,0.4,Lead 4,0.4,Drums 5,0.5,189,816,638,1086
+11,Gorgeous,Doja Cat,Vocals 5,0.5,Bass 4,0.4,Lead 3,0.3,Drums 2,0.2,867,419,438,1751
+11,I Love Rock N Roll,Joan Jett & The Blackhearts,Vocals 4,0.4,Bass 2,0.2,Lead 3,0.3,Drums 1,0.1,400,230,501,816
+11,In My Room,Julia Wolf,Vocals 3,0.3,Bass 2,0.2,Lead 4,0.4,Drums 4,0.4,311,276,777,698
+11,OIIA OIIA (Spinning Cat),W&W,Vocals 6,0,Bass 3,0.3,Lead 4,0.4,Drums 5,0.5,640,316,297,833
+11,On and On (Remix),Epic Games,Vocals 4,0.4,Bass 4,0.4,Lead 5,0.5,Drums 6,5,247,449,1507,1215
+11,PPAP (Pen Pineapple Apple Pen) [Long Version],Pikotaro,Vocals 3,0.3,Bass 4,0.4,Lead 3,0.3,Drums 4,0.4,197,341,205,562
+11,Ride,Epic Games,Vocals 5,0.5,Bass 3,0.3,Lead 4,0.4,Drums 6,4,677,169,556,1003
+11,Rocket Man,Elton John,Vocals 3,0.3,Bass 2,0.2,Lead 5,0.5,Drums 4,0.4,466,281,1318,918
+11,Shelter,"Porter Robinson, Madeon",Vocals 3,0.3,Bass 2,0.2,Lead 4,0.4,Drums 5,0.5,509,221,323,
+11,What's New Scooby-Doo?,Simple Plan,Vocals 3,0.3,Bass 4,0.4,Lead 3,0.3,Drums 4,0.4,177,255,323,415
