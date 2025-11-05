@@ -326,7 +326,9 @@
       </div>
       <button id="fpCalcBtn">Find Songs</button>
       <div id="result" class="result-box" aria-live="polite">
-        <div class="small">Fun Fact: To achieve the ideal score, you need +85FP on 1 song rated 8★, +90FP on all 9★, +95FP on all 10★ and +100FP on TTFAF Lead. Only the TOP 3 Players have already reached this score, good luck getting it ;)</div>
+        <div class="small">Fun Fact: To achieve the ideal score, you need +85FP on 1 song rated 8★, +90FP on all 9★,
+          +95FP on all 10★ and +100FP on TTFAF Lead. Only the TOP 3 Players have already reached this score, good luck
+          getting it ;)</div>
       </div>
       <div class="table-wrap">
         <table id="fpTable">
@@ -347,8 +349,99 @@
 
   <script>
 
-    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5zPeo8WDSBx8igMIj_EwbXOwV3QoFO4c9q3LDJLDiTvgvUwDeFp3xH7jlGCJUmbkjhjK8jnLp4cFp/pub?gid=728145224&single=true&output=csv";
-    const localCSV = "songs.csv";
+    const ratingSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoMgw4z9uEcZ_EhyMaMUX10v3Par7Gpbdqe2wFHdroKqC0WW59FqbI883WL0yhKPMHR95tUB9EZIoU/pub?gid=1439152647&single=true&output=csv";
+    const notesSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoMgw4z9uEcZ_EhyMaMUX10v3Par7Gpbdqe2wFHdroKqC0WW59FqbI883WL0yhKPMHR95tUB9EZIoU/pub?gid=1994073740&single=true&output=csv";
+
+    const localRatingCSV = "songs.csv";
+    const localNotesCSV = "notes.csv";
+
+    let songsData = [];
+
+    function loadSongs() {
+      Papa.parse(ratingSheetURL, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function (ratingRes) {
+          if (!ratingRes.data || ratingRes.data.length === 0) {
+            console.warn("'ratingSheetURL' can't load, using local file...");
+            return loadLocalSongs();
+          }
+          Papa.parse(notesSheetURL, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function (notesRes) {
+              if (!notesRes.data || notesRes.data.length === 0) {
+                console.warn("'notesSheetURL' can't load, using local file...");
+                return loadLocalSongs();
+              }
+              console.log("Online!");
+              combineSongData(ratingRes.data, notesRes.data);
+            }
+          });
+        },
+        error: function () {
+          console.warn("Error with ratingSheetURL, using local file...");
+          loadLocalSongs();
+        }
+      });
+    }
+
+    function loadLocalSongs() {
+      Papa.parse(localRatingCSV, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function (ratingRes) {
+          Papa.parse(localNotesCSV, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function (notesRes) {
+              console.log("Local!");
+              combineSongData(ratingRes.data, notesRes.data);
+            }
+          });
+        }
+      });
+    }
+
+    function combineSongData(ratingRows, notesRows) {
+      const normalize = s => (s || "").trim().toLowerCase();
+
+      songsData = ratingRows.map(r => {
+        const title = (r["Title"] || "").trim();
+        const info = notesRows.find(n => normalize(n["Title"]) === normalize(title));
+        const vals = Object.values(r);
+        const idxVocals = vals.findIndex(v => String(v).toLowerCase().includes("vocals"));
+        const idxBass = vals.findIndex(v => String(v).toLowerCase().includes("bass"));
+        const idxLead = vals.findIndex(v => String(v).toLowerCase().includes("lead"));
+        const idxDrums = vals.findIndex(v => String(v).toLowerCase().includes("drums"));
+
+        function safeTier(idx) {
+          const nextVal = vals[idx + 1];
+          return parseTier(nextVal);
+        }
+
+        return {
+          title,
+          artist: r["Artist"] || (info ? info["Artist"] : ""),
+          vocalsTier: safeTier(idxVocals),
+          bassTier: safeTier(idxBass),
+          leadTier: safeTier(idxLead),
+          drumsTier: safeTier(idxDrums),
+          vocalsNotes: parseInt(info?.["Vocals Note Ct"] || 0),
+          bassNotes: parseInt(info?.["Bass Note Ct"] || 0),
+          leadNotes: parseInt(info?.["Lead Note Ct"] || 0),
+          drumsNotes: parseInt(info?.["Drums Note Ct"] || 0)
+        };
+      });
+
+      populateDatalist();
+      renderDifficultyTable();
+      console.log("Loaded", songsData.length, "songs");
+    }
 
     // Tabs handler
     document.querySelectorAll(".tab").forEach(btn => {
@@ -414,48 +507,6 @@
       if (!t && t !== 0) return NaN;
       const s = normalizeValue(t).replace(',', '.').trim();
       return s === "" ? NaN : parseFloat(s);
-    }
-
-    let songsData = [];
-
-    function processSongs(res) {
-      songsData = res.data
-        .filter(r => r["Title"] && !isNaN(parseInt(r["Vocals Note Ct"])))
-        .map(r => ({
-          title: normalizeValue(r["Title"]),
-          vocalsNotes: parseInt(r["Vocals Note Ct"]),
-          bassNotes: parseInt(r["Bass Note Ct"]),
-          leadNotes: parseInt(r["Lead Note Ct"]),
-          drumsNotes: parseInt(r["Drums Note Ct"]),
-          vocalsTier: normalizeValue(r["Vocals Tier"]),
-          bassTier: normalizeValue(r["Bass Tier"]),
-          leadTier: normalizeValue(r["Lead Tier"]),
-          drumsTier: normalizeValue(r["Drums Tier"])
-        }));
-
-      populateDatalist();
-      renderDifficultyTable();
-      console.log("Loaded", songsData.length, "songs");
-    }
-
-    function loadSongs() {
-      Papa.parse(sheetURL, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        transformHeader: h => normalizeKey(h),
-        complete: res => processSongs(res),
-        error: err => {
-          console.warn("Google Sheets failed, loading local CSV:", err);
-          Papa.parse("songs.csv", {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            transformHeader: h => normalizeKey(h),
-            complete: res => processSongs(res)
-          });
-        }
-      });
     }
 
     function populateDatalist(filteredSongs = songsData) {
@@ -555,12 +606,12 @@
       const score = diffVal * precision * bonus;
 
       resultBox.innerHTML = `
-    <div><strong>Score:</strong> ${isFinite(score) ? score.toFixed(2) : 'N/A'}</div>
-    <div class="small">Accuracy: ${isFinite(pct) ? pct.toFixed(2) + '%' : 'N/A'}</div>
-    <div class="small">Bonus: ${isFinite(bonus) ? bonus.toFixed(4) : 'N/A'}</div>
-    <div class="small">Difficulty value: ${diffVal}</div>
-    <div class="small">Perfects: ${perfects} / ${total}</div>
-    `;
+        <div><strong>Score:</strong> ${isFinite(score) ? score.toFixed(2) : 'N/A'}</div>
+        <div class="small">Accuracy: ${isFinite(pct) ? pct.toFixed(2) + '%' : 'N/A'}</div>
+        <div class="small">Bonus: ${isFinite(bonus) ? bonus.toFixed(4) : 'N/A'}</div>
+        <div class="small">Difficulty value: ${diffVal}</div>
+        <div class="small">Perfects: ${perfects} / ${total}</div>
+        `;
     });
 
     function renderDifficultyTable() {
