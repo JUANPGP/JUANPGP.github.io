@@ -139,7 +139,6 @@
       }
     }
 
-
     th,
     td {
       padding: 10px 8px;
@@ -196,7 +195,6 @@
       display: flex;
     }
 
-
     .tab.active {
       background: #6366f1;
       font-weight: bold;
@@ -220,11 +218,92 @@
         padding: 12px;
       }
     }
+
+    #loadingOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 20, 25, 0.95);
+      color: #eef2ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+    }
+
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.15);
+      border-top: 4px solid #7aa2ff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loaded-notice {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translate(-50%, 20px);
+      background: #2b2b35;
+      color: #cfe3ff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      z-index: 1000;
+      pointer-events: none;
+      transition: all 1s ease;
+    }
+
+    /* Animación de entrada suave */
+    @keyframes fadeInNotice {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    .loaded-notice.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      animation: fadeInNotice 1s ease;
+    }
+
+    .loaded-notice.slide-up {
+      opacity: 0;
+      transform: translate(-50%, -40px);
+      transition: all 1s ease;
+    }
   </style>
 </head>
 
 <body>
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <p id="loadingText">Loading songs, please wait...</p>
+  </div>
+
   <div class="container">
+    <div id="loadedNotice" class="loaded-notice" style="display:none;">✅ Data loaded successfully!</div>
 
     <div class="tabs">
       <button class="tab active" data-target="scoreCard">Score Calculator</button>
@@ -358,6 +437,7 @@
     let songsData = [];
 
     function loadSongs() {
+      document.getElementById("loadingOverlay").style.display = "flex";
       Papa.parse(ratingSheetURL, {
         download: true,
         header: true,
@@ -441,6 +521,33 @@
       populateDatalist();
       renderDifficultyTable();
       console.log("Loaded", songsData.length, "songs");
+
+      setTimeout(() => {
+        const overlay = document.getElementById("loadingOverlay");
+        overlay.style.transition = "opacity 0.6s ease";
+        overlay.style.opacity = "0";
+
+        setTimeout(() => {
+          overlay.style.display = "none";
+
+          const notice = document.getElementById("loadedNotice");
+          notice.style.display = "block";
+          notice.classList.add("show");
+
+          window.scrollTo({ top: 0, behavior: "smooth" });
+
+          setTimeout(() => {
+            notice.classList.remove("show");
+            notice.classList.add("slide-up");
+          }, 3000);
+
+          setTimeout(() => {
+            notice.style.display = "none";
+            notice.classList.remove("slide-up");
+          }, 4500);
+
+        }, 600);
+      }, 800);
     }
 
     // Tabs handler
