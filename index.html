@@ -405,7 +405,7 @@
       </div>
       <button id="fpCalcBtn">Find Songs</button>
       <div id="result" class="result-box" aria-live="polite">
-        <div class="small">Fun Fact: To achieve the ideal score, you need +90FP on 21 songs rated 9★, +95FP on all 10★ and +100FP on TTFAF Lead. Only the TOP 3 Players have already reached this score, good luck getting it ;)</div>
+        <div class="small">Fun Fact: To achieve the ideal score, you need +90FP on 20 songs rated 9★, +95FP on all 10★, +100FP on Black Diamond and +105FP on TTFAF Lead. Only the TOP 3 Players have already reached this score, good luck getting it ;)</div>
       </div>
       <div class="table-wrap">
         <table id="fpTable">
@@ -703,6 +703,7 @@
           case 8: return 90;
           case 9: return 95;
           case 10: return 100;
+          case 11: return 105;
           case 12: return 110;
           default: return 0;
         }
@@ -790,6 +791,7 @@
         case 8: return 90;
         case 9: return 95;
         case 10: return 100;
+        case 11: return 105;
         case 12: return 110;
         default: return 0;
       }
